@@ -1,7 +1,9 @@
 import React from 'react';
 import { AgeCalculator } from '@/components/AgeCalculator';
 import { InfoTabs } from '@/components/InfoTabs';
-import { CalculatorsMenu } from '@/components/CalculatorsMenu';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { Globe } from 'lucide-react';
 
 const Index = () => {
   return (
@@ -18,7 +20,12 @@ const Index = () => {
                 Discover your precise age with our comprehensive calculator that shows your age in years, months, weeks, days, hours, and minutes. Get instant zodiac sign detection, birthday countdown, and day-of-week predictions all in one powerful tool.
               </p>
               
-              <CalculatorsMenu />
+              <Link to="/calculators">
+                <Button variant="explore" size="lg" className="mb-8">
+                  <Globe className="mr-2 h-5 w-5" />
+                  Explore All Calculators
+                </Button>
+              </Link>
             </div>
             
             <InfoTabs />
