@@ -4,12 +4,26 @@ import { BasicArithmeticCalculator } from '@/components/calculators/BasicArithme
 import { PercentageCalculator } from '@/components/calculators/PercentageCalculator';
 import { TipCalculator } from '@/components/calculators/TipCalculator';
 import { DiscountCalculator } from '@/components/calculators/DiscountCalculator';
+import { SalesTaxCalculator } from '@/components/calculators/SalesTaxCalculator';
+import { UnitPriceCalculator } from '@/components/calculators/UnitPriceCalculator';
+import { RatioCalculator } from '@/components/calculators/RatioCalculator';
+import { FractionDecimalConverter } from '@/components/calculators/FractionDecimalConverter';
+import { GPACalculator } from '@/components/calculators/GPACalculator';
+import { SimpleInterestCalculator } from '@/components/calculators/SimpleInterestCalculator';
+import { CompoundInterestCalculator } from '@/components/calculators/CompoundInterestCalculator';
 
 const calculatorComponents = {
   'basic-arithmetic': BasicArithmeticCalculator,
   'percentage': PercentageCalculator,
   'tip': TipCalculator,
   'discount': DiscountCalculator,
+  'sales-tax': SalesTaxCalculator,
+  'unit-price': UnitPriceCalculator,
+  'ratio': RatioCalculator,
+  'fraction-decimal': FractionDecimalConverter,
+  'gpa': GPACalculator,
+  'simple-interest': SimpleInterestCalculator,
+  'compound-interest': CompoundInterestCalculator,
 };
 
 export const CalculatorPage: React.FC = () => {
