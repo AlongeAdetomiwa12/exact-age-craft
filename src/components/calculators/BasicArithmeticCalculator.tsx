@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -78,6 +78,32 @@ export const BasicArithmeticCalculator: React.FC = () => {
       setDisplay(display + '.');
     }
   };
+
+  const addZeros = (count: number) => {
+    const currentValue = parseFloat(display);
+    if (!isNaN(currentValue) && currentValue !== 0) {
+      const zerosToAdd = '0'.repeat(count);
+      const newValue = display + zerosToAdd;
+      setDisplay(newValue);
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      const key = e.key.toLowerCase();
+      
+      if (key === 'm') {
+        e.preventDefault();
+        addZeros(6); // Million - 6 zeros
+      } else if (key === 'k') {
+        e.preventDefault();
+        addZeros(3); // Thousand - 3 zeros
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [display]);
 
   const buttons = [
     ['C', '±', '%', '÷'],
