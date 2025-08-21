@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Calendar, Clock, Star, Gift } from 'lucide-react';
+import { useActivityLogger } from '@/hooks/useActivityLogger';
 
 interface AgeResult {
   years: number;
@@ -139,6 +140,7 @@ export const AgeCalculator: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<string>("");
   const [compareToAnother, setCompareToAnother] = useState(false);
   const [result, setResult] = useState<AgeResult | null>(null);
+  const { logActivity } = useActivityLogger();
 
   const handleCalculate = () => {
     if (!selectedDay || !selectedMonth || !selectedYear) {
@@ -153,6 +155,9 @@ export const AgeCalculator: React.FC = () => {
 
     const ageResult = calculateAge(birthDate);
     setResult(ageResult);
+    
+    // Log the calculation activity
+    logActivity('age_calculation', birthDate.toISOString(), ageResult);
   };
 
   return (

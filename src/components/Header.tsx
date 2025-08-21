@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Moon, Sun, Calculator } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Link } from 'react-router-dom';
+import { AuthButton } from '@/components/AuthButton';
 
 export const Header: React.FC = () => {
   const { theme, setTheme } = useTheme();
@@ -25,8 +26,9 @@ export const Header: React.FC = () => {
           </div>
         </Link>
 
-        {/* Theme Toggle */}
-        <Button
+        <div className="flex items-center gap-2">
+          {/* Theme Toggle */}
+          <Button
           variant="ghost"
           size="icon"
           onClick={toggleTheme}
@@ -36,6 +38,10 @@ export const Header: React.FC = () => {
           <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
         </Button>
+        
+        {/* Auth Button */}
+        <AuthButton />
+        </div>
       </div>
     </header>
   );
