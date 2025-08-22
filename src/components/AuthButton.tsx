@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { LogIn, LogOut, User } from 'lucide-react';
+import { LogIn, LogOut, User, Settings } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import {
   DropdownMenu,
@@ -59,6 +59,12 @@ export const AuthButton = () => {
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
             Profile
+          </DropdownMenuItem>
+        </Link>
+        <Link to="/settings">
+          <DropdownMenuItem>
+            <Settings className="mr-2 h-4 w-4" />
+            Settings
           </DropdownMenuItem>
         </Link>
         {userRole === 'admin' && (

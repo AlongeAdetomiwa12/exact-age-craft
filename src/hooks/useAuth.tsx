@@ -10,6 +10,8 @@ interface AuthContextType {
   userRole: string | null;
   signInWithGoogle: () => Promise<void>;
   signInWithGithub: () => Promise<void>;
+  signInWithEmail: (email: string, password: string) => Promise<{ error: any }>;
+  signUpWithEmail: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -127,6 +129,51 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const signInWithEmail = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    if (error) {
+      toast({
+        title: "Sign In Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+    
+    return { error };
+  };
+
+  const signUpWithEmail = async (email: string, password: string) => {
+    const redirectUrl = `${window.location.origin}/`;
+    
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: redirectUrl
+      }
+    });
+    
+    if (error) {
+      toast({
+        title: "Sign Up Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    } else {
+      toast({
+        title: "Sign Up Successful",
+        description: "Please check your email to confirm your account.",
+        variant: "default"
+      });
+    }
+    
+    return { error };
+  };
+
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -145,6 +192,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     userRole,
     signInWithGoogle,
     signInWithGithub,
+    signInWithEmail,
+    signUpWithEmail,
     signOut
   };
 

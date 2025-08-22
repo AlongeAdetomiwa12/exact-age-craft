@@ -11,6 +11,7 @@ import { CalculatorNavigation } from "@/components/CalculatorNavigation";
 import { CalculatorPage } from "./pages/CalculatorPage";
 import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
+import SettingsPage from "./pages/SettingsPage";
 import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
 
@@ -32,6 +33,7 @@ const App = () => (
                 <Route path="/calculator/:type" element={<CalculatorPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/admin" element={<AdminPage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
