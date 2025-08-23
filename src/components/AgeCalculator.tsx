@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, memo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -57,6 +57,7 @@ const days = Array.from({ length: 31 }, (_, i) => ({
   label: (i + 1).toString()
 }));
 
+// Memoize heavy computations outside component
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 120 }, (_, i) => ({
   value: (currentYear - i).toString(),
@@ -134,13 +135,18 @@ const calculateAge = (birthDate: Date, compareDate: Date = new Date()): AgeResul
   };
 };
 
-export const AgeCalculator: React.FC = () => {
+export const AgeCalculator: React.FC = memo(() => {
   const [selectedDay, setSelectedDay] = useState<string>("");
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [selectedYear, setSelectedYear] = useState<string>("");
   const [compareToAnother, setCompareToAnother] = useState(false);
   const [result, setResult] = useState<AgeResult | null>(null);
   const { logActivity } = useActivityLogger();
+
+  // Memoize expensive calculations
+  const canCalculate = useMemo(() => {
+    return !!(selectedDay && selectedMonth && selectedYear);
+  }, [selectedDay, selectedMonth, selectedYear]);
 
   const handleCalculate = () => {
     if (!selectedDay || !selectedMonth || !selectedYear) {
@@ -235,7 +241,7 @@ export const AgeCalculator: React.FC = () => {
           onClick={handleCalculate} 
           variant="blue"
           className="w-full py-3 text-lg font-semibold"
-          disabled={!selectedDay || !selectedMonth || !selectedYear}
+          disabled={!canCalculate}
         >
           Calculate Age
         </Button>
@@ -295,4 +301,4 @@ export const AgeCalculator: React.FC = () => {
       </CardContent>
     </Card>
   );
-};
+});
