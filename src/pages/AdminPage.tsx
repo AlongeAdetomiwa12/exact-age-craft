@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,7 @@ import {
   TableRow 
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Users, CreditCard, Filter, Search } from 'lucide-react';
+import { Users, CreditCard, Search } from 'lucide-react';
 
 interface User {
   id: string;
@@ -40,7 +40,7 @@ interface Payment {
   profiles: {
     display_name: string;
     email: string;
-  };
+  } | null;
 }
 
 const AdminPage = () => {
@@ -70,10 +70,14 @@ const AdminPage = () => {
     }
 
     if (user && userRole === 'admin') {
-      fetchUsers();
-      fetchPayments();
+      fetchData();
     }
   }, [user, userRole, loading, navigate]);
+
+  const fetchData = async () => {
+    await Promise.all([fetchUsers(), fetchPayments()]);
+    setLoadingData(false);
+  };
 
   const fetchUsers = async () => {
     try {
@@ -110,7 +114,7 @@ const AdminPage = () => {
           transaction_id,
           status,
           created_at,
-          profiles!payments_user_id_fkey(display_name, email)
+          profiles(display_name, email)
         `)
         .order('created_at', { ascending: false });
 
@@ -130,8 +134,6 @@ const AdminPage = () => {
       }
     } catch (error) {
       console.error('Error fetching payments:', error);
-    } finally {
-      setLoadingData(false);
     }
   };
 
@@ -144,9 +146,10 @@ const AdminPage = () => {
   });
 
   const filteredPayments = payments.filter(payment => {
+    const profiles = payment.profiles;
     const matchesSearch = 
-      payment.profiles.display_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      payment.profiles.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      profiles?.display_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      profiles?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.transaction_id?.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
   });
@@ -293,10 +296,10 @@ const AdminPage = () => {
                           <TableCell>
                             <div>
                               <p className="font-medium">
-                                {payment.profiles.display_name || 'N/A'}
+                                {payment.profiles?.display_name || 'N/A'}
                               </p>
                               <p className="text-sm text-muted-foreground">
-                                {payment.profiles.email}
+                                {payment.profiles?.email || 'Unknown'}
                               </p>
                             </div>
                           </TableCell>

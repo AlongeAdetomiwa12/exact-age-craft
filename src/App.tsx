@@ -18,6 +18,11 @@ const AuthPage = lazy(() => import("./pages/AuthPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
+const AboutToolPage = lazy(() => import("./pages/AboutToolPage"));
+const BasicOperationsPage = lazy(() => import("./pages/BasicOperationsPage"));
+const SpecialFunctionsPage = lazy(() => import("./pages/SpecialFunctionsPage"));
+const KeyboardShortcutsPage = lazy(() => import("./pages/KeyboardShortcutsPage"));
+const ResponsiveDesignPage = lazy(() => import("./pages/ResponsiveDesignPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Loading component optimized for low-end devices
@@ -69,6 +74,11 @@ const App = () => (
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/settings" element={<SettingsPage />} />
                     <Route path="/admin" element={<AdminPage />} />
+                    <Route path="/about/tool" element={<AboutToolPage />} />
+                    <Route path="/about/operations" element={<BasicOperationsPage />} />
+                    <Route path="/about/functions" element={<SpecialFunctionsPage />} />
+                    <Route path="/about/shortcuts" element={<KeyboardShortcutsPage />} />
+                    <Route path="/about/responsive" element={<ResponsiveDesignPage />} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                     <Route path="*" element={<NotFound />} />
                   </Routes>
