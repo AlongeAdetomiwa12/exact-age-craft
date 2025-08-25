@@ -11,6 +11,14 @@ import { FractionDecimalConverter } from '@/components/calculators/FractionDecim
 import { GPACalculator } from '@/components/calculators/GPACalculator';
 import { SimpleInterestCalculator } from '@/components/calculators/SimpleInterestCalculator';
 import { CompoundInterestCalculator } from '@/components/calculators/CompoundInterestCalculator';
+import { BMICalculator } from '@/components/calculators/BMICalculator';
+import { FuelCostCalculator } from '@/components/calculators/FuelCostCalculator';
+import { ExponentsRootsCalculator } from '@/components/calculators/ExponentsRootsCalculator';
+import { LoanEMICalculator } from '@/components/calculators/LoanEMICalculator';
+import { CookingConverter } from '@/components/calculators/CookingConverter';
+import DogAgeCalculator from '@/components/calculators/DogAgeCalculator';
+import CatAgeCalculator from '@/components/calculators/CatAgeCalculator';
+import PregnancyCalculator from '@/components/calculators/PregnancyCalculator';
 
 const calculatorComponents = {
   'basic-arithmetic': BasicArithmeticCalculator,
@@ -24,6 +32,14 @@ const calculatorComponents = {
   'gpa': GPACalculator,
   'simple-interest': SimpleInterestCalculator,
   'compound-interest': CompoundInterestCalculator,
+  'bmi': BMICalculator,
+  'fuel-cost': FuelCostCalculator,
+  'exponents-roots': ExponentsRootsCalculator,
+  'loan-emi': LoanEMICalculator,
+  'cooking-converter': CookingConverter,
+  'dog-age': DogAgeCalculator,
+  'cat-age': CatAgeCalculator,
+  'pregnancy': PregnancyCalculator,
 };
 
 export const CalculatorPage: React.FC = () => {
