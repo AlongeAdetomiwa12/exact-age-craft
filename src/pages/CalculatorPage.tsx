@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { BasicArithmeticCalculator } from '@/components/calculators/BasicArithmeticCalculator';
 import { PercentageCalculator } from '@/components/calculators/PercentageCalculator';
@@ -20,6 +20,17 @@ import DogAgeCalculator from '@/components/calculators/DogAgeCalculator';
 import CatAgeCalculator from '@/components/calculators/CatAgeCalculator';
 import PregnancyCalculator from '@/components/calculators/PregnancyCalculator';
 
+// Lazy load new calculators
+const LogarithmCalculator = lazy(() => import('@/components/calculators/LogarithmCalculator').then(m => ({ default: m.LogarithmCalculator })));
+const FactorialCombinationsCalculator = lazy(() => import('@/components/calculators/FactorialCombinationsCalculator').then(m => ({ default: m.FactorialCombinationsCalculator })));
+const TrigonometryCalculator = lazy(() => import('@/components/calculators/TrigonometryCalculator').then(m => ({ default: m.TrigonometryCalculator })));
+const GeometryCalculator = lazy(() => import('@/components/calculators/GeometryCalculator').then(m => ({ default: m.GeometryCalculator })));
+const ROICalculator = lazy(() => import('@/components/calculators/ROICalculator').then(m => ({ default: m.ROICalculator })));
+const DepreciationCalculator = lazy(() => import('@/components/calculators/DepreciationCalculator').then(m => ({ default: m.DepreciationCalculator })));
+const CurrencyConverter = lazy(() => import('@/components/calculators/CurrencyConverter').then(m => ({ default: m.CurrencyConverter })));
+const BMRCalculator = lazy(() => import('@/components/calculators/BMRCalculator').then(m => ({ default: m.BMRCalculator })));
+const CalorieCalculator = lazy(() => import('@/components/calculators/CalorieCalculator').then(m => ({ default: m.CalorieCalculator })));
+
 const calculatorComponents = {
   'basic-arithmetic': BasicArithmeticCalculator,
   'percentage': PercentageCalculator,
@@ -40,6 +51,15 @@ const calculatorComponents = {
   'dog-age': DogAgeCalculator,
   'cat-age': CatAgeCalculator,
   'pregnancy': PregnancyCalculator,
+  'logarithm': LogarithmCalculator,
+  'factorial-combinations': FactorialCombinationsCalculator,
+  'trigonometry': TrigonometryCalculator,
+  'geometry': GeometryCalculator,
+  'roi': ROICalculator,
+  'depreciation': DepreciationCalculator,
+  'currency-converter': CurrencyConverter,
+  'bmr': BMRCalculator,
+  'calorie': CalorieCalculator,
 };
 
 export const CalculatorPage: React.FC = () => {
@@ -54,7 +74,9 @@ export const CalculatorPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-foreground py-8">
       <div className="container mx-auto px-4">
-        <CalculatorComponent />
+        <Suspense fallback={<div className="flex justify-center py-8">Loading calculator...</div>}>
+          <CalculatorComponent />
+        </Suspense>
       </div>
     </div>
   );

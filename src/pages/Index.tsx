@@ -18,10 +18,10 @@ const Index = () => {
             {!isMobile && (
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold text-accent mb-4">
-                  Advanced Age Calculator | Calculate Your Exact Age in Years, Months, Days
+                  ChronoSphere Calculator Suite | Precision Calculations Across Time & Mathematics
                 </h1>
                 <p className="text-lg text-muted-foreground mb-6">
-                  Discover your precise age with our comprehensive calculator that shows your age in years, months, weeks, days, hours, and minutes. Get instant zodiac sign detection, birthday countdown, and day-of-week predictions all in one powerful tool.
+                  Discover precise calculations with our comprehensive suite featuring advanced age calculations, mathematical operations, financial tools, scientific formulas, and statistical analysis. Get instant results with professional-grade accuracy across every dimension of calculation.
                 </p>
                 
                 <Link to="/calculators">
@@ -39,7 +39,7 @@ const Index = () => {
             {isMobile && (
               <div>
                 <h1 className="text-2xl font-bold text-accent mb-4">
-                  Age Calculator
+                  ChronoSphere Calculator
                 </h1>
                 <AgeCalculator />
               </div>

@@ -182,6 +182,24 @@ const calculatorRoutes: CalculatorRoute[] = [
 
   // Health Calculators
   { 
+    name: "BMR Calculator", 
+    path: "/calculator/bmr", 
+    icon: Heart, 
+    description: "Basal Metabolic Rate", 
+    category: "Health",
+    formula: "Men: 10W + 6.25H - 5A + 5"
+  },
+  { 
+    name: "Calorie Calculator", 
+    path: "/calculator/calorie", 
+    icon: Zap, 
+    description: "Daily calorie needs (TDEE)", 
+    category: "Health",
+    formula: "TDEE = BMR × Activity Factor"
+  },
+
+  // Health Calculators
+  { 
     name: "BMI Calculator", 
     path: "/calculator/bmi", 
     icon: Activity, 
@@ -423,9 +441,9 @@ export const CalculatorNavigation: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-accent mb-4">Calculator Collection</h1>
+        <h1 className="text-4xl font-bold text-accent mb-4">ChronoSphere Calculator Suite</h1>
         <p className="text-lg text-muted-foreground mb-6">
-          Choose from our comprehensive collection of specialized calculators
+          Comprehensive mathematical and scientific calculations for every dimension of life
         </p>
         
         {/* Category Tags */}

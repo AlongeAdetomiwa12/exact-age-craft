@@ -15,8 +15,8 @@ export const Header = () => {
         <div className="flex items-center space-x-2">
           {isMobile && <MobileSidebar />}
           <Link to="/" className="flex items-center space-x-2">
-            <Calculator className="h-6 w-6 text-primary" />
-            <span className="font-bold text-xl">AgeCalc</span>
+            <img src="/lovable-uploads/39e9acce-a282-4ee4-8e48-578e2bf98ccb.png" alt="ChronoSphere" className="h-10 w-10" />
+            <span className="font-bold text-xl text-accent">ChronoSphere</span>
           </Link>
         </div>
         
