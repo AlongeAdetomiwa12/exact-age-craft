@@ -82,12 +82,12 @@ const calculatorRoutes: CalculatorRoute[] = [
     formula: "a/b = c/d"
   },
   { 
-    name: "Fraction to Decimal", 
-    path: "/calculator/fraction-decimal", 
+    name: "Fraction & Combinations", 
+    path: "/calculator/fractions-combinations", 
     icon: Hash, 
-    description: "Convert fractions to decimals", 
+    description: "Simplify fractions, nCr, nPr", 
     category: "Mathematics",
-    formula: "a/b = decimal"
+    formula: "nCr = n!/(r!(n-r)!)"
   },
   { 
     name: "Exponents & Roots", 
@@ -182,24 +182,6 @@ const calculatorRoutes: CalculatorRoute[] = [
 
   // Health Calculators
   { 
-    name: "BMR Calculator", 
-    path: "/calculator/bmr", 
-    icon: Heart, 
-    description: "Basal Metabolic Rate", 
-    category: "Health",
-    formula: "Men: 10W + 6.25H - 5A + 5"
-  },
-  { 
-    name: "Calorie Calculator", 
-    path: "/calculator/calorie", 
-    icon: Zap, 
-    description: "Daily calorie needs (TDEE)", 
-    category: "Health",
-    formula: "TDEE = BMR × Activity Factor"
-  },
-
-  // Health Calculators
-  { 
     name: "BMI Calculator", 
     path: "/calculator/bmi", 
     icon: Activity, 
@@ -250,36 +232,20 @@ const calculatorRoutes: CalculatorRoute[] = [
 
   // Science Calculators
   { 
-    name: "Physics Calculator", 
-    path: "/calculator/physics", 
-    icon: Atom, 
-    description: "Motion, force, energy calculations", 
-    category: "Science",
-    formula: "F = ma, v = u + at"
-  },
-  { 
-    name: "Chemistry Calculator", 
-    path: "/calculator/chemistry", 
-    icon: FlaskConical, 
-    description: "pH, molarity calculations", 
-    category: "Science",
-    formula: "pH = -log₁₀[H⁺]"
-  },
-  { 
     name: "Ohm's Law Calculator", 
     path: "/calculator/ohms-law", 
     icon: Zap, 
-    description: "Voltage, current, resistance", 
+    description: "Voltage, current, resistance, power", 
     category: "Science",
-    formula: "V = IR"
+    formula: "V = I×R, P = V×I"
   },
   { 
-    name: "Thermodynamics", 
+    name: "Thermodynamics Calculator", 
     path: "/calculator/thermodynamics", 
     icon: Thermometer, 
-    description: "Gas laws and temperature", 
+    description: "Heat transfer and efficiency", 
     category: "Science",
-    formula: "PV = nRT"
+    formula: "Q = m×c×ΔT"
   },
 
   // Statistics Calculators

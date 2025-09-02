@@ -65,6 +65,14 @@ export default {
 				blue: {
 					primary: 'hsl(var(--blue-primary))',
 					'primary-foreground': 'hsl(var(--blue-primary-foreground))'
+				},
+				chronosphere: {
+					primary: 'hsl(var(--primary))',
+					heading: 'hsl(var(--heading))',
+					subtext: 'hsl(var(--subtext))',
+					'accent-text': 'hsl(var(--accent-text))',
+					highlight: 'hsl(var(--highlight))',
+					'hover-fill': 'hsl(var(--hover-fill))'
 				}
 			},
 			backgroundImage: {

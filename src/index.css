@@ -8,97 +8,113 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* ChronoSphere Light Theme - using provided colors */
+    --background: 220 14% 96%;
+    --foreground: 210 11% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 210 11% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 210 11% 15%;
 
-    --primary: 260 60% 30%;
+    --primary: 178 74% 60%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 212 15% 16%;
+    --secondary-foreground: 215 20% 65%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 260 80% 45%;
+    --accent: 178 74% 60%;
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 260 80% 45%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 178 74% 60%;
+
+    /* ChronoSphere specific tokens */
+    --heading: 215 20% 91%;
+    --subtext: 215 16% 65%;
+    --accent-text: 178 74% 60%;
+    --highlight: 45 96% 53%;
+    --hover-fill: 220 8% 76%;
 
     /* Light mode custom tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(260 60% 30%), hsl(260 80% 45%));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 98%));
-    --shadow-glow: 0 0 40px hsl(260 80% 45% / 0.2);
-    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.1);
+    --gradient-primary: linear-gradient(90deg, hsl(178 74% 60%), hsl(185 54% 48%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14% 98%));
+    --shadow-glow: 0 0 10px rgba(10, 186, 181, 0.6);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.1);
     --blue-primary: 220 90% 56%;
     --blue-primary-foreground: 0 0% 98%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-background: 220 14% 96%;
+    --sidebar-foreground: 210 11% 15%;
+    --sidebar-primary: 178 74% 60%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-accent: 220 13% 91%;
+    --sidebar-accent-foreground: 210 11% 15%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 178 74% 60%;
   }
 
   .dark {
-    --background: 260 15% 8%;
-    --foreground: 0 0% 98%;
+    /* ChronoSphere Dark Theme - Background: #0D1117, Secondary: #182028 */
+    --background: 220 20% 7%;
+    --foreground: 215 20% 91%;
 
-    --card: 260 10% 12%;
-    --card-foreground: 0 0% 98%;
+    --card: 216 18% 12%;
+    --card-foreground: 215 20% 91%;
 
-    --popover: 260 10% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 216 18% 12%;
+    --popover-foreground: 215 20% 91%;
 
-    --primary: 260 60% 30%;
+    --primary: 178 74% 60%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 260 20% 18%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 216 18% 12%;
+    --secondary-foreground: 215 20% 91%;
 
-    --muted: 260 15% 15%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 220 20% 7%;
+    --muted-foreground: 215 16% 65%;
 
-    --accent: 260 80% 45%;
+    --accent: 178 74% 60%;
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 260 20% 20%;
-    --input: 260 20% 16%;
-    --ring: 260 80% 45%;
+    --border: 216 18% 16%;
+    --input: 216 18% 16%;
+    --ring: 178 74% 60%;
     
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* ChronoSphere specific tokens */
+    --heading: 215 20% 91%;
+    --subtext: 215 16% 65%;
+    --accent-text: 178 74% 60%;
+    --highlight: 45 96% 53%;
+    --hover-fill: 220 8% 76%;
+    
+    --sidebar-background: 220 20% 7%;
+    --sidebar-foreground: 215 20% 91%;
+    --sidebar-primary: 178 74% 60%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 216 18% 12%;
+    --sidebar-accent-foreground: 215 20% 91%;
+    --sidebar-border: 216 18% 16%;
+    --sidebar-ring: 178 74% 60%;
 
     /* Dark mode custom tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(260 60% 30%), hsl(260 80% 45%));
-    --gradient-card: linear-gradient(135deg, hsl(260 10% 12%), hsl(260 15% 15%));
-    --shadow-glow: 0 0 40px hsl(260 80% 45% / 0.3);
-    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+    --gradient-primary: linear-gradient(90deg, hsl(178 74% 60%), hsl(185 54% 48%));
+    --gradient-card: linear-gradient(135deg, hsl(216 18% 12%), hsl(220 20% 10%));
+    --shadow-glow: 0 0 10px rgba(10, 186, 181, 0.6);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.3);
     --blue-primary: 220 90% 56%;
     --blue-primary-foreground: 0 0% 98%;
   }

@@ -31,6 +31,13 @@ const CurrencyConverter = lazy(() => import('@/components/calculators/CurrencyCo
 const BMRCalculator = lazy(() => import('@/components/calculators/BMRCalculator').then(m => ({ default: m.BMRCalculator })));
 const CalorieCalculator = lazy(() => import('@/components/calculators/CalorieCalculator').then(m => ({ default: m.CalorieCalculator })));
 
+// Lazy load new calculators
+const OhmsLawCalculator = lazy(() => import('@/components/calculators/OhmsLawCalculator').then(m => ({ default: m.OhmsLawCalculator })));
+const ThermodynamicsCalculator = lazy(() => import('@/components/calculators/ThermodynamicsCalculator').then(m => ({ default: m.ThermodynamicsCalculator })));
+const HeartRateZonesCalculator = lazy(() => import('@/components/calculators/HeartRateZonesCalculator').then(m => ({ default: m.HeartRateZonesCalculator })));
+const FractionsCombinationsCalculator = lazy(() => import('@/components/calculators/FractionsCombinationsCalculator').then(m => ({ default: m.FractionsCombinationsCalculator })));
+const BodyFatCalculator = lazy(() => import('@/components/calculators/BodyFatCalculator').then(m => ({ default: m.BodyFatCalculator })));
+
 const calculatorComponents = {
   'basic-arithmetic': BasicArithmeticCalculator,
   'percentage': PercentageCalculator,
@@ -40,6 +47,7 @@ const calculatorComponents = {
   'unit-price': UnitPriceCalculator,
   'ratio': RatioCalculator,
   'fraction-decimal': FractionDecimalConverter,
+  'fractions-combinations': FractionsCombinationsCalculator,
   'gpa': GPACalculator,
   'simple-interest': SimpleInterestCalculator,
   'compound-interest': CompoundInterestCalculator,
@@ -60,6 +68,10 @@ const calculatorComponents = {
   'currency-converter': CurrencyConverter,
   'bmr': BMRCalculator,
   'calorie': CalorieCalculator,
+  'ohms-law': OhmsLawCalculator,
+  'thermodynamics': ThermodynamicsCalculator,
+  'heart-rate': HeartRateZonesCalculator,
+  'body-fat': BodyFatCalculator,
 };
 
 export const CalculatorPage: React.FC = () => {
