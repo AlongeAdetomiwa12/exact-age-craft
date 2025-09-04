@@ -1,16 +1,40 @@
 {
-  "name": "Calculator Collection - Math, Finance & More",
-  "short_name": "Calculator Pro",
+  "name": "ChronoSphere Calculator Collection",
+  "short_name": "ChronoSphere",
   "description": "Professional calculator collection with 40+ specialized calculators for math, finance, health, science and everyday use. Works offline.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0d0d1e",
-  "theme_color": "#663399",
+  "background_color": "#0D1117",
+  "theme_color": "#0ABAB5",
   "orientation": "any",
   "scope": "/",
   "lang": "en",
   "dir": "ltr",
   "icons": [
+    {
+      "src": "/icon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "/icon-192x192.png",
       "sizes": "192x192",
