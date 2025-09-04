@@ -174,6 +174,7 @@ export type Database = {
           display_name: string | null
           email: string | null
           id: string
+          is_banned: boolean
           provider: string | null
           role: string | null
           updated_at: string
@@ -185,6 +186,7 @@ export type Database = {
           display_name?: string | null
           email?: string | null
           id?: string
+          is_banned?: boolean
           provider?: string | null
           role?: string | null
           updated_at?: string
@@ -196,6 +198,7 @@ export type Database = {
           display_name?: string | null
           email?: string | null
           id?: string
+          is_banned?: boolean
           provider?: string | null
           role?: string | null
           updated_at?: string

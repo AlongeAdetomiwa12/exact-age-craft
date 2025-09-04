@@ -112,7 +112,9 @@ const AdminPage = () => {
       } else {
         const usersWithRoles = (data || []).map(profile => ({
           ...profile,
-          role: profile.user_roles?.[0]?.role || 'user'
+          role: Array.isArray(profile.user_roles) && profile.user_roles.length > 0 
+            ? profile.user_roles[0].role 
+            : 'user'
         }));
         setUsers(usersWithRoles);
       }
@@ -173,7 +175,7 @@ const AdminPage = () => {
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({ is_banned: true })
+        .update({ is_banned: true } as any)
         .eq('user_id', userId);
 
       if (error) throw error;
@@ -197,7 +199,7 @@ const AdminPage = () => {
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({ is_banned: false })
+        .update({ is_banned: false } as any)
         .eq('user_id', userId);
 
       if (error) throw error;
