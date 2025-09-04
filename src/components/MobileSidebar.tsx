@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Menu, Calculator, Info, Keyboard, Zap, MonitorSpeaker } from 'lucide-react';
+import { Menu, Calculator, Info, Keyboard, Zap, MonitorSpeaker, Grid } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 // Import calculator routes data directly
 const calculatorRoutes = [
@@ -44,16 +44,32 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
           </Button>
         )}
       </SheetTrigger>
-      <SheetContent side="left" className="w-72 overflow-y-auto">
+      <SheetContent side="left" className="w-72 overflow-y-auto animate-slide-in-right">
         <SheetHeader>
           <SheetTitle>Age Calculator</SheetTitle>
         </SheetHeader>
         
         <div className="mt-6 space-y-6">
+          {/* Calculator Collection Link */}
+          <div>
+            <Link to="/calculators">
+              <Button
+                variant={location.pathname === '/calculators' ? "secondary" : "ghost"}
+                className="w-full justify-start hover-scale"
+                size="sm"
+              >
+                <Grid className="mr-2 h-4 w-4" />
+                Calculator Collection
+              </Button>
+            </Link>
+          </div>
+
+          <Separator />
+
           {/* Calculators Section */}
           <div>
             <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3">
-              Calculators
+              Popular Calculators
             </h3>
             <div className="space-y-1">
               {calculatorRoutes.map((route) => {
@@ -64,7 +80,7 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
                   <Link key={route.path} to={route.path}>
                     <Button
                       variant={isActive ? "secondary" : "ghost"}
-                      className="w-full justify-start"
+                      className="w-full justify-start hover-scale transition-all duration-200"
                       size="sm"
                     >
                       <Icon className="mr-2 h-4 w-4" />
@@ -92,7 +108,7 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
                   <Link key={section.path} to={section.path}>
                     <Button
                       variant={isActive ? "secondary" : "ghost"}
-                      className="w-full justify-start"
+                      className="w-full justify-start hover-scale transition-all duration-200"
                       size="sm"
                     >
                       <Icon className="mr-2 h-4 w-4" />

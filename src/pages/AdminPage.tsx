@@ -17,14 +17,27 @@ import {
   TableRow 
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Users, CreditCard, Search } from 'lucide-react';
+import { Users, CreditCard, Search, Crown, UserX, Shield, Ban } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface User {
   id: string;
+  user_id: string;
   display_name: string;
   email: string;
   provider: string;
   role: string;
+  is_banned?: boolean;
   created_at: string;
 }
 
@@ -83,7 +96,10 @@ const AdminPage = () => {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('*')
+        .select(`
+          *,
+          user_roles(role)
+        `)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -94,10 +110,110 @@ const AdminPage = () => {
           variant: "destructive"
         });
       } else {
-        setUsers(data || []);
+        const usersWithRoles = (data || []).map(profile => ({
+          ...profile,
+          role: profile.user_roles?.[0]?.role || 'user'
+        }));
+        setUsers(usersWithRoles);
       }
     } catch (error) {
       console.error('Error fetching users:', error);
+    }
+  };
+
+  const promoteToAdmin = async (userId: string) => {
+    try {
+      const { error } = await supabase
+        .from('user_roles')
+        .update({ role: 'admin' })
+        .eq('user_id', userId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "User promoted to admin successfully",
+      });
+      fetchUsers();
+    } catch (error) {
+      console.error('Error promoting user:', error);
+      toast({
+        title: "Error",
+        description: "Failed to promote user to admin",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const removeAdminRole = async (userId: string) => {
+    try {
+      const { error } = await supabase
+        .from('user_roles')
+        .update({ role: 'user' })
+        .eq('user_id', userId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Admin role removed successfully",
+      });
+      fetchUsers();
+    } catch (error) {
+      console.error('Error removing admin role:', error);
+      toast({
+        title: "Error",
+        description: "Failed to remove admin role",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const banUser = async (userId: string) => {
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ is_banned: true })
+        .eq('user_id', userId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "User banned successfully",
+      });
+      fetchUsers();
+    } catch (error) {
+      console.error('Error banning user:', error);
+      toast({
+        title: "Error",
+        description: "Failed to ban user",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const unbanUser = async (userId: string) => {
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ is_banned: false })
+        .eq('user_id', userId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "User unbanned successfully",
+      });
+      fetchUsers();
+    } catch (error) {
+      console.error('Error unbanning user:', error);
+      toast({
+        title: "Error",
+        description: "Failed to unban user",
+        variant: "destructive"
+      });
     }
   };
 
@@ -242,7 +358,9 @@ const AdminPage = () => {
                         <TableHead>Email</TableHead>
                         <TableHead>Provider</TableHead>
                         <TableHead>Role</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead>Joined</TableHead>
+                        <TableHead>Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -259,11 +377,117 @@ const AdminPage = () => {
                             <Badge 
                               variant={user.role === 'admin' ? 'default' : 'secondary'}
                             >
-                              {user.role}
+                              {user.role === 'admin' ? (
+                                <><Crown className="w-3 h-3 mr-1" />Admin</>
+                              ) : (
+                                <><Users className="w-3 h-3 mr-1" />User</>
+                              )}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <Badge 
+                              variant={user.is_banned ? 'destructive' : 'outline'}
+                            >
+                              {user.is_banned ? 'Banned' : 'Active'}
                             </Badge>
                           </TableCell>
                           <TableCell>
                             {format(new Date(user.created_at), 'PPP')}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex gap-2">
+                              {user.role === 'admin' ? (
+                                <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                    <Button variant="outline" size="sm">
+                                      <UserX className="w-4 h-4" />
+                                    </Button>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>Remove Admin Role</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Are you sure you want to remove admin role from {user.display_name}? This action cannot be undone.
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                      <AlertDialogAction onClick={() => removeAdminRole(user.user_id)}>
+                                        Remove Admin
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              ) : (
+                                <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                    <Button variant="outline" size="sm">
+                                      <Shield className="w-4 h-4" />
+                                    </Button>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>Promote to Admin</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Are you sure you want to promote {user.display_name} to admin? They will have full access to the admin dashboard.
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                      <AlertDialogAction onClick={() => promoteToAdmin(user.user_id)}>
+                                        Promote to Admin
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              )}
+                              
+                              {user.is_banned ? (
+                                <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                    <Button variant="outline" size="sm">
+                                      <Users className="w-4 h-4" />
+                                    </Button>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>Unban User</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Are you sure you want to unban {user.display_name}? They will regain access to the application.
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                      <AlertDialogAction onClick={() => unbanUser(user.user_id)}>
+                                        Unban User
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              ) : (
+                                <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                    <Button variant="destructive" size="sm">
+                                      <Ban className="w-4 h-4" />
+                                    </Button>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>Ban User</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Are you sure you want to ban {user.display_name}? This will prevent them from accessing the application.
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                      <AlertDialogAction onClick={() => banUser(user.user_id)}>
+                                        Ban User
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              )}
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}
