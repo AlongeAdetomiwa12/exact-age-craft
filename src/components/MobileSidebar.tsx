@@ -44,7 +44,7 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
           </Button>
         )}
       </SheetTrigger>
-      <SheetContent side="left" className="w-72 overflow-y-auto animate-slide-in-right">
+      <SheetContent side="left" className="w-72 overflow-y-auto animate-slide-in-right transition-transform duration-300 ease-out">
         <SheetHeader>
           <SheetTitle>Age Calculator</SheetTitle>
         </SheetHeader>
