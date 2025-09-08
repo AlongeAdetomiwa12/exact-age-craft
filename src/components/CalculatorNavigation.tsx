@@ -44,6 +44,9 @@ import {
   CircleDot,
   Thermometer,
   PieChart as Pie
+  Grid3X3,
+  Navigation,
+  Circle
 } from 'lucide-react';
 
 interface CalculatorRoute {
@@ -354,6 +357,78 @@ const calculatorRoutes: CalculatorRoute[] = [
     description: "Grade Point Average", 
     category: "Everyday",
     formula: "GPA = Total Grade Points / Total Credits"
+  },
+  { 
+    name: "Matrix Calculator", 
+    path: "/calculator/matrix", 
+    icon: Grid3X3, 
+    description: "Matrix operations and determinant", 
+    category: "Mathematics",
+    formula: "|A| = ad - bc (2x2 case)"
+  },
+  { 
+    name: "Quadratic Equation Solver", 
+    path: "/calculator/quadratic", 
+    icon: Infinity, 
+    description: "Solve quadratic equations", 
+    category: "Mathematics",
+    formula: "x = [-b ± √(b² - 4ac)] / (2a)"
+  },
+  { 
+    name: "AP Calculator", 
+    path: "/calculator/ap", 
+    icon: TrendingUp, 
+    description: "Arithmetic Progression calculator", 
+    category: "Mathematics",
+    formula: "an = a + (n-1)d"
+  },
+  { 
+    name: "GP Calculator", 
+    path: "/calculator/gp", 
+    icon: TrendingUp, 
+    description: "Geometric Progression calculator", 
+    category: "Mathematics",
+    formula: "an = ar^(n-1)"
+  },
+  { 
+    name: "LCM & GCD Calculator", 
+    path: "/calculator/lcm-gcd", 
+    icon: Hash, 
+    description: "Least Common Multiple & Greatest Common Divisor", 
+    category: "Mathematics",
+    formula: "LCM(a,b) × GCD(a,b) = a × b"
+  },
+  { 
+    name: "Modular Arithmetic Calculator", 
+    path: "/calculator/modular", 
+    icon: Percent, 
+    description: "Modulo operations", 
+    category: "Mathematics",
+    formula: "a mod n = r"
+  },
+  { 
+    name: "Complex Number Calculator", 
+    path: "/calculator/complex", 
+    icon: Infinity, 
+    description: "Complex number operations", 
+    category: "Mathematics",
+    formula: "(a+bi)(c+di) = (ac-bd) + (ad+bc)i"
+  },
+  { 
+    name: "Vector Calculator", 
+    path: "/calculator/vector", 
+    icon: Navigation, 
+    description: "Vector operations and calculations", 
+    category: "Mathematics",
+    formula: "|v| = √(x² + y² + z²)"
+  },
+  { 
+    name: "Circle Theorem Calculator", 
+    path: "/calculator/circle", 
+    icon: Circle, 
+    description: "Circle geometry and theorems", 
+    category: "Mathematics",
+    formula: "Inscribed angle = Central angle ÷ 2"
   }
 ];
 
