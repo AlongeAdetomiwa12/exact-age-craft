@@ -63,6 +63,8 @@ const AdminPage = () => {
   const [loadingData, setLoadingData] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterProvider, setFilterProvider] = useState('');
+  const [newAdminEmail, setNewAdminEmail] = useState('');
+  const [isInviting, setIsInviting] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -219,6 +221,43 @@ const AdminPage = () => {
     }
   };
 
+  const inviteAdmin = async () => {
+    if (!newAdminEmail.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter an email address",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsInviting(true);
+    try {
+      const { data, error } = await supabase.rpc('create_admin_user_by_email', {
+        target_email: newAdminEmail.trim(),
+        inviting_admin_id: user?.id
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: `Admin role granted to ${newAdminEmail}`,
+      });
+      setNewAdminEmail('');
+      fetchUsers();
+    } catch (error: any) {
+      console.error('Error inviting admin:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to invite admin",
+        variant: "destructive"
+      });
+    } finally {
+      setIsInviting(false);
+    }
+  };
+
   const fetchPayments = async () => {
     try {
       const { data, error } = await supabase
@@ -291,9 +330,42 @@ const AdminPage = () => {
           <div className="mb-8">
             <h1 className="text-3xl font-bold">Admin Dashboard</h1>
             <p className="text-muted-foreground">
-              Manage users and view payment transactions
+              Manage users, admins, and view payment transactions
             </p>
           </div>
+
+          {/* Admin Management Section */}
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Crown className="h-5 w-5" />
+                Admin Management
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                  <Input
+                    placeholder="Enter email to make admin..."
+                    value={newAdminEmail}
+                    onChange={(e) => setNewAdminEmail(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && inviteAdmin()}
+                  />
+                </div>
+                <Button 
+                  onClick={inviteAdmin} 
+                  disabled={isInviting || !newAdminEmail.trim()}
+                  className="gap-2"
+                >
+                  <Crown className="h-4 w-4" />
+                  {isInviting ? 'Making Admin...' : 'Make Admin'}
+                </Button>
+              </div>
+              <p className="text-sm text-muted-foreground mt-2">
+                Enter the email of an existing user to grant them admin privileges.
+              </p>
+            </CardContent>
+          </Card>
 
           {/* Search and Filter */}
           <Card className="mb-6">
@@ -350,7 +422,19 @@ const AdminPage = () => {
             <TabsContent value="users">
               <Card>
                 <CardHeader>
-                  <CardTitle>Registered Users</CardTitle>
+                  <CardTitle className="flex items-center justify-between">
+                    <span>Registered Users</span>
+                    <div className="flex gap-4 text-sm">
+                      <span className="flex items-center gap-1">
+                        <Crown className="h-4 w-4 text-primary" />
+                        {filteredUsers.filter(u => u.role === 'admin').length} Admins
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Users className="h-4 w-4 text-muted-foreground" />
+                        {filteredUsers.filter(u => u.role === 'user').length} Users
+                      </span>
+                    </div>
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Table>

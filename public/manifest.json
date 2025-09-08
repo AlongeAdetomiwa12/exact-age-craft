@@ -1,7 +1,7 @@
 {
-  "name": "ChronoSphere Calculator Collection",
+  "name": "ChronoSphere Calculator Collection - Your All-in-One Calculator",
   "short_name": "ChronoSphere",
-  "description": "Professional calculator collection with 40+ specialized calculators for math, finance, health, science and everyday use. Works offline.",
+  "description": "Your all-in-one calculator solution with 40+ specialized calculators for math, finance, health, science and everyday use. Works offline.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0D1117",

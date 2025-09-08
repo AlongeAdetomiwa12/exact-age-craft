@@ -243,18 +243,24 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          invited_at: string | null
+          invited_by: string | null
           role: string
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
+          invited_at?: string | null
+          invited_by?: string | null
           role?: string
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
+          invited_at?: string | null
+          invited_by?: string | null
           role?: string
           user_id?: string
         }
@@ -295,6 +301,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_admin_user_by_email: {
+        Args: { inviting_admin_id: string; target_email: string }
+        Returns: string
+      }
       get_user_role: {
         Args: { user_uuid: string }
         Returns: string
