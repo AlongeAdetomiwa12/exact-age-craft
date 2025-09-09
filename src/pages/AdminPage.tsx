@@ -56,7 +56,7 @@ interface Payment {
   } | null;
 }
 
-const AdminPage = () => {
+const AdminPage: React.FC = () => {
   const { user, userRole, loading } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -87,7 +87,7 @@ const AdminPage = () => {
     if (user && userRole === 'admin') {
       fetchData();
     }
-  }, [user, userRole, loading, navigate]);
+  }, [user, userRole, loading, navigate, toast]);
 
   const fetchData = async () => {
     await Promise.all([fetchUsers(), fetchPayments()]);
@@ -324,7 +324,7 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background animate-fade-in">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
@@ -335,7 +335,7 @@ const AdminPage = () => {
           </div>
 
           {/* Admin Management Section */}
-          <Card className="mb-6">
+          <Card className="mb-6 animate-scale-in">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Crown className="h-5 w-5" />
@@ -355,7 +355,7 @@ const AdminPage = () => {
                 <Button 
                   onClick={inviteAdmin} 
                   disabled={isInviting || !newAdminEmail.trim()}
-                  className="gap-2"
+                  className="gap-2 hover-scale"
                 >
                   <Crown className="h-4 w-4" />
                   {isInviting ? 'Making Admin...' : 'Make Admin'}
@@ -368,7 +368,7 @@ const AdminPage = () => {
           </Card>
 
           {/* Search and Filter */}
-          <Card className="mb-6">
+          <Card className="mb-6 animate-scale-in">
             <CardContent className="pt-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="relative flex-1">
@@ -385,6 +385,7 @@ const AdminPage = () => {
                     variant={filterProvider === '' ? 'default' : 'outline'}
                     onClick={() => setFilterProvider('')}
                     size="sm"
+                    className="hover-scale"
                   >
                     All
                   </Button>
@@ -392,6 +393,7 @@ const AdminPage = () => {
                     variant={filterProvider === 'google' ? 'default' : 'outline'}
                     onClick={() => setFilterProvider('google')}
                     size="sm"
+                    className="hover-scale"
                   >
                     Google
                   </Button>
@@ -399,6 +401,7 @@ const AdminPage = () => {
                     variant={filterProvider === 'github' ? 'default' : 'outline'}
                     onClick={() => setFilterProvider('github')}
                     size="sm"
+                    className="hover-scale"
                   >
                     GitHub
                   </Button>
@@ -408,7 +411,7 @@ const AdminPage = () => {
           </Card>
 
           <Tabs defaultValue="users" className="space-y-4">
-            <TabsList>
+            <TabsList className="animate-fade-in">
               <TabsTrigger value="users" className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
                 Users ({filteredUsers.length})
@@ -419,7 +422,7 @@ const AdminPage = () => {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="users">
+            <TabsContent value="users" className="animate-fade-in">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
@@ -450,8 +453,12 @@ const AdminPage = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredUsers.map((user) => (
-                        <TableRow key={user.id}>
+                      {filteredUsers.map((user, index) => (
+                        <TableRow 
+                          key={user.id} 
+                          className="animate-fade-in"
+                          style={{ animationDelay: `${index * 0.05}s` }}
+                        >
                           <TableCell className="font-medium">
                             {user.display_name || 'N/A'}
                           </TableCell>
@@ -485,7 +492,7 @@ const AdminPage = () => {
                               {user.role === 'admin' ? (
                                 <AlertDialog>
                                   <AlertDialogTrigger asChild>
-                                    <Button variant="outline" size="sm">
+                                    <Button variant="outline" size="sm" className="hover-scale">
                                       <UserX className="w-4 h-4" />
                                     </Button>
                                   </AlertDialogTrigger>
@@ -505,55 +512,29 @@ const AdminPage = () => {
                                   </AlertDialogContent>
                                 </AlertDialog>
                               ) : (
-                                <AlertDialog>
-                                  <AlertDialogTrigger asChild>
-                                    <Button variant="outline" size="sm">
-                                      <Shield className="w-4 h-4" />
-                                    </Button>
-                                  </AlertDialogTrigger>
-                                  <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                      <AlertDialogTitle>Promote to Admin</AlertDialogTitle>
-                                      <AlertDialogDescription>
-                                        Are you sure you want to promote {user.display_name} to admin? They will have full access to the admin dashboard.
-                                      </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                      <AlertDialogAction onClick={() => promoteToAdmin(user.user_id)}>
-                                        Promote to Admin
-                                      </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                  </AlertDialogContent>
-                                </AlertDialog>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => promoteToAdmin(user.user_id)}
+                                  className="hover-scale"
+                                >
+                                  <Shield className="w-4 h-4" />
+                                </Button>
                               )}
                               
                               {user.is_banned ? (
-                                <AlertDialog>
-                                  <AlertDialogTrigger asChild>
-                                    <Button variant="outline" size="sm">
-                                      <Users className="w-4 h-4" />
-                                    </Button>
-                                  </AlertDialogTrigger>
-                                  <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                      <AlertDialogTitle>Unban User</AlertDialogTitle>
-                                      <AlertDialogDescription>
-                                        Are you sure you want to unban {user.display_name}? They will regain access to the application.
-                                      </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                      <AlertDialogAction onClick={() => unbanUser(user.user_id)}>
-                                        Unban User
-                                      </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                  </AlertDialogContent>
-                                </AlertDialog>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => unbanUser(user.user_id)}
+                                  className="hover-scale"
+                                >
+                                  Unban
+                                </Button>
                               ) : (
                                 <AlertDialog>
                                   <AlertDialogTrigger asChild>
-                                    <Button variant="destructive" size="sm">
+                                    <Button variant="destructive" size="sm" className="hover-scale">
                                       <Ban className="w-4 h-4" />
                                     </Button>
                                   </AlertDialogTrigger>
@@ -583,7 +564,7 @@ const AdminPage = () => {
               </Card>
             </TabsContent>
 
-            <TabsContent value="payments">
+            <TabsContent value="payments" className="animate-fade-in">
               <Card>
                 <CardHeader>
                   <CardTitle>Payment Transactions</CardTitle>
@@ -601,25 +582,29 @@ const AdminPage = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredPayments.map((payment) => (
-                        <TableRow key={payment.id}>
+                      {filteredPayments.map((payment, index) => (
+                        <TableRow 
+                          key={payment.id}
+                          className="animate-fade-in"
+                          style={{ animationDelay: `${index * 0.05}s` }}
+                        >
                           <TableCell>
                             <div>
-                              <p className="font-medium">
-                                {payment.profiles?.display_name || 'N/A'}
-                              </p>
-                              <p className="text-sm text-muted-foreground">
+                              <div className="font-medium">
+                                {payment.profiles?.display_name || 'Unknown'}
+                              </div>
+                              <div className="text-sm text-muted-foreground">
                                 {payment.profiles?.email || 'Unknown'}
-                              </p>
+                              </div>
                             </div>
                           </TableCell>
                           <TableCell className="font-medium">
-                            {payment.currency.toUpperCase()} {payment.amount}
+                            {payment.currency} {payment.amount}
                           </TableCell>
                           <TableCell>
                             <Badge variant="outline">{payment.method}</Badge>
                           </TableCell>
-                          <TableCell className="font-mono text-sm">
+                          <TableCell className="font-mono text-xs">
                             {payment.transaction_id}
                           </TableCell>
                           <TableCell>

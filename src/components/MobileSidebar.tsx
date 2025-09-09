@@ -44,21 +44,21 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
           </Button>
         )}
       </SheetTrigger>
-      <SheetContent side="left" className="w-72 overflow-y-auto animate-slide-in-right transition-transform duration-300 ease-out">
+      <SheetContent side="left" className="w-72 overflow-y-auto animate-slide-in-right">
         <SheetHeader>
           <SheetTitle>Age Calculator</SheetTitle>
         </SheetHeader>
         
-        <div className="mt-6 space-y-6">
+        <div className="mt-6 space-y-6 animate-fade-in">
           {/* Calculator Collection Link */}
-          <div>
+          <div className="animate-scale-in">
             <Link to="/calculators">
               <Button
                 variant={location.pathname === '/calculators' ? "secondary" : "ghost"}
-                className="w-full justify-start hover-scale"
+                className="w-full justify-start hover-scale group"
                 size="sm"
               >
-                <Grid className="mr-2 h-4 w-4" />
+                <Grid className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform duration-200" />
                 Calculator Collection
               </Button>
             </Link>
@@ -67,26 +67,32 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
           <Separator />
 
           {/* Calculators Section */}
-          <div>
+          <div className="animate-fade-in">
             <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3">
               Popular Calculators
             </h3>
             <div className="space-y-1">
-              {calculatorRoutes.map((route) => {
+              {calculatorRoutes.map((route, index) => {
                 const Icon = route.icon;
                 const isActive = location.pathname === route.path;
                 
                 return (
-                  <Link key={route.path} to={route.path}>
-                    <Button
-                      variant={isActive ? "secondary" : "ghost"}
-                      className="w-full justify-start hover-scale transition-all duration-200"
-                      size="sm"
-                    >
-                      <Icon className="mr-2 h-4 w-4" />
-                      {route.name}
-                    </Button>
-                  </Link>
+                  <div 
+                    key={route.path} 
+                    className="animate-fade-in"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <Link to={route.path}>
+                      <Button
+                        variant={isActive ? "secondary" : "ghost"}
+                        className="w-full justify-start hover-scale transition-all duration-200 group"
+                        size="sm"
+                      >
+                        <Icon className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform duration-200" />
+                        {route.name}
+                      </Button>
+                    </Link>
+                  </div>
                 );
               })}
             </div>
@@ -95,26 +101,32 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
           <Separator />
 
           {/* About Section */}
-          <div>
+          <div className="animate-fade-in">
             <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3">
               About Us
             </h3>
             <div className="space-y-1">
-              {aboutSections.map((section) => {
+              {aboutSections.map((section, index) => {
                 const Icon = section.icon;
                 const isActive = location.pathname === section.path;
                 
                 return (
-                  <Link key={section.path} to={section.path}>
-                    <Button
-                      variant={isActive ? "secondary" : "ghost"}
-                      className="w-full justify-start hover-scale transition-all duration-200"
-                      size="sm"
-                    >
-                      <Icon className="mr-2 h-4 w-4" />
-                      {section.name}
-                    </Button>
-                  </Link>
+                  <div 
+                    key={section.path}
+                    className="animate-fade-in"
+                    style={{ animationDelay: `${(index + calculatorRoutes.length) * 0.1}s` }}
+                  >
+                    <Link to={section.path}>
+                      <Button
+                        variant={isActive ? "secondary" : "ghost"}
+                        className="w-full justify-start hover-scale transition-all duration-200 group"
+                        size="sm"
+                      >
+                        <Icon className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform duration-200" />
+                        {section.name}
+                      </Button>
+                    </Link>
+                  </div>
                 );
               })}
             </div>
