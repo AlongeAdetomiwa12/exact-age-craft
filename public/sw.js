@@ -1,4 +1,4 @@
-const CACHE_NAME = 'calculator-pro-v2';
+const CACHE_NAME = 'chronosphere-calculator-v3';
 const urlsToCache = [
   '/',
   '/calculators',
@@ -72,13 +72,11 @@ self.addEventListener('fetch', (event) => {
           // Clone the response for caching
           const responseToCache = response.clone();
           
-          // Cache dynamic content for better performance
-          if (event.request.url.includes('/calculator/')) {
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-          }
+          // Always cache new resources to prevent old version issues
+          caches.open(CACHE_NAME)
+            .then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
 
           return response;
         });

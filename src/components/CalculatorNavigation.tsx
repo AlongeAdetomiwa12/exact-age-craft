@@ -43,7 +43,7 @@ import {
   Triangle,
   CircleDot,
   Thermometer,
-  PieChart as Pie
+  PieChart as Pie,
   Grid3X3,
   Navigation,
   Circle
@@ -369,7 +369,7 @@ const calculatorRoutes: CalculatorRoute[] = [
   { 
     name: "Quadratic Equation Solver", 
     path: "/calculator/quadratic", 
-    icon: Infinity, 
+    icon: Square,
     description: "Solve quadratic equations", 
     category: "Mathematics",
     formula: "x = [-b ± √(b² - 4ac)] / (2a)"
@@ -409,7 +409,7 @@ const calculatorRoutes: CalculatorRoute[] = [
   { 
     name: "Complex Number Calculator", 
     path: "/calculator/complex", 
-    icon: Infinity, 
+    icon: CalcIcon, 
     description: "Complex number operations", 
     category: "Mathematics",
     formula: "(a+bi)(c+di) = (ac-bd) + (ad+bc)i"

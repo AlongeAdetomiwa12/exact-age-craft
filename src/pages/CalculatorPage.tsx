@@ -32,6 +32,15 @@ const BMRCalculator = lazy(() => import('@/components/calculators/BMRCalculator'
 const CalorieCalculator = lazy(() => import('@/components/calculators/CalorieCalculator').then(m => ({ default: m.CalorieCalculator })));
 
 // Lazy load new calculators
+const MatrixCalculator = lazy(() => import('@/components/calculators/MatrixCalculator').then(m => ({ default: m.MatrixCalculator })));
+const QuadraticEquationSolver = lazy(() => import('@/components/calculators/QuadraticEquationSolver').then(m => ({ default: m.QuadraticEquationSolver })));
+const APCalculator = lazy(() => import('@/components/calculators/APCalculator').then(m => ({ default: m.APCalculator })));
+const GPCalculator = lazy(() => import('@/components/calculators/GPCalculator').then(m => ({ default: m.GPCalculator })));
+const LCMGCDCalculator = lazy(() => import('@/components/calculators/LCMGCDCalculator').then(m => ({ default: m.LCMGCDCalculator })));
+const ModularArithmeticCalculator = lazy(() => import('@/components/calculators/ModularArithmeticCalculator').then(m => ({ default: m.ModularArithmeticCalculator })));
+const ComplexNumberCalculator = lazy(() => import('@/components/calculators/ComplexNumberCalculator').then(m => ({ default: m.ComplexNumberCalculator })));
+const VectorCalculator = lazy(() => import('@/components/calculators/VectorCalculator').then(m => ({ default: m.VectorCalculator })));
+const CircleTheoremCalculator = lazy(() => import('@/components/calculators/CircleTheoremCalculator').then(m => ({ default: m.CircleTheoremCalculator })));
 const OhmsLawCalculator = lazy(() => import('@/components/calculators/OhmsLawCalculator').then(m => ({ default: m.OhmsLawCalculator })));
 const ThermodynamicsCalculator = lazy(() => import('@/components/calculators/ThermodynamicsCalculator').then(m => ({ default: m.ThermodynamicsCalculator })));
 const HeartRateZonesCalculator = lazy(() => import('@/components/calculators/HeartRateZonesCalculator').then(m => ({ default: m.HeartRateZonesCalculator })));
