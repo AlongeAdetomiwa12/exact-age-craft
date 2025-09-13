@@ -8,7 +8,7 @@ import { Header } from "@/components/Header";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Suspense, lazy, memo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
+
 
 // Lazy load pages for better performance on low-end devices
 const Index = lazy(() => import("./pages/Index"));
@@ -64,26 +64,22 @@ const App = () => (
           <BrowserRouter>
             <div className="min-h-screen bg-background">
               <Header />
-              <ErrorBoundary>
-                <Suspense fallback={<LoadingSpinner />}>
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/calculators" element={<CalculatorNavigation />} />
-                    <Route path="/calculator/:type" element={<CalculatorPage />} />
-                    <Route path="/auth" element={<AuthPage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="/settings" element={<SettingsPage />} />
-                    <Route path="/admin" element={<AdminPage />} />
-                    <Route path="/about/tool" element={<AboutToolPage />} />
-                    <Route path="/about/operations" element={<BasicOperationsPage />} />
-                    <Route path="/about/functions" element={<SpecialFunctionsPage />} />
-                    <Route path="/about/shortcuts" element={<KeyboardShortcutsPage />} />
-                    <Route path="/about/responsive" element={<ResponsiveDesignPage />} />
-                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
-              </ErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/calculators" element={<CalculatorPage />} />
+                  <Route path="/basic-operations" element={<BasicOperationsPage />} />
+                  <Route path="/special-functions" element={<SpecialFunctionsPage />} />
+                  <Route path="/auth" element={<AuthPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/admin" element={<AdminPage />} />
+                  <Route path="/about/tool/:id" element={<AboutToolPage />} />
+                  <Route path="/about/responsive-design" element={<ResponsiveDesignPage />} />
+                  <Route path="/about/keyboard-shortcuts" element={<KeyboardShortcutsPage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
             </div>
           </BrowserRouter>
         </TooltipProvider>
