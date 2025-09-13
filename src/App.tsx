@@ -14,7 +14,7 @@ import { Card, CardContent } from "@/components/ui/card";
 const Index = lazy(() => import("./pages/Index"));
 const CalculatorNavigation = lazy(() => import("@/components/CalculatorNavigation").then(module => ({ default: module.CalculatorNavigation })));
 const CalculatorPage = lazy(() => import("./pages/CalculatorPage").then(module => ({ default: module.CalculatorPage })));
-const AuthPage = lazy(() => import("./pages/AuthPage"));
+const AuthPage = lazy(() => import("./pages/AuthPage").then(module => ({ default: module.default })));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
