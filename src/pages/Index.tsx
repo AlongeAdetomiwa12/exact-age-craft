@@ -6,9 +6,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { Globe, Calculator, Star, Zap, Shield } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAuth } from '@/hooks/useAuth';
 
 const Index = () => {
   const isMobile = useIsMobile();
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -30,7 +32,7 @@ const Index = () => {
             Experience the power of precision with our comprehensive calculator suite. From age calculations to complex mathematical operations, financial tools, and scientific formulas - we've got every calculation covered.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/calculators">
+            <Link to={user ? "/calculators" : "/auth"}>
               <Button size="lg" className="gap-2 px-8 py-3">
                 <Globe className="h-5 w-5" />
                 Explore All Calculators
