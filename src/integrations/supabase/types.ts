@@ -305,10 +305,7 @@ export type Database = {
         Args: { inviting_admin_id: string; target_email: string }
         Returns: string
       }
-      get_user_role: {
-        Args: { user_uuid: string }
-        Returns: string
-      }
+      get_user_role: { Args: { user_uuid: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
