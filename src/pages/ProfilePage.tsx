@@ -22,7 +22,6 @@ interface Payment {
 
 interface Profile {
   display_name: string;
-  email: string;
   provider: string;
   role: string;
   created_at: string;
