@@ -23,7 +23,7 @@ const BasicOperationsPage = lazy(() => import("./pages/BasicOperationsPage"));
 const SpecialFunctionsPage = lazy(() => import("./pages/SpecialFunctionsPage"));
 const KeyboardShortcutsPage = lazy(() => import("./pages/KeyboardShortcutsPage"));
 const ResponsiveDesignPage = lazy(() => import("./pages/ResponsiveDesignPage"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+import NotFound from "./pages/NotFound";
 
 // Loading component optimized for low-end devices
 const LoadingSpinner = memo(() => (
