@@ -34,7 +34,6 @@ interface User {
   id: string;
   user_id: string;
   display_name: string;
-  email: string;
   provider: string;
   role: string;
   is_banned?: boolean;
@@ -52,7 +51,6 @@ interface Payment {
   created_at: string;
   profiles: {
     display_name: string;
-    email: string;
   } | null;
 }
 
@@ -271,7 +269,7 @@ const AdminPage: React.FC = () => {
           transaction_id,
           status,
           created_at,
-          profiles(display_name, email)
+          profiles(display_name)
         `)
         .order('created_at', { ascending: false });
 
@@ -285,7 +283,7 @@ const AdminPage: React.FC = () => {
       } else {
         const formattedData = (data || []).map(payment => ({
           ...payment,
-          profiles: payment.profiles || { display_name: 'Unknown', email: 'Unknown' }
+          profiles: payment.profiles || { display_name: 'Unknown' }
         }));
         setPayments(formattedData as Payment[]);
       }
@@ -296,8 +294,7 @@ const AdminPage: React.FC = () => {
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = 
-      user.display_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email?.toLowerCase().includes(searchTerm.toLowerCase());
+      user.display_name?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesProvider = !filterProvider || user.provider === filterProvider;
     return matchesSearch && matchesProvider;
   });
@@ -306,7 +303,6 @@ const AdminPage: React.FC = () => {
     const profiles = payment.profiles;
     const matchesSearch = 
       profiles?.display_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      profiles?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.transaction_id?.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
   });
@@ -444,7 +440,6 @@ const AdminPage: React.FC = () => {
                     <TableHeader>
                       <TableRow>
                         <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
                         <TableHead>Provider</TableHead>
                         <TableHead>Role</TableHead>
                         <TableHead>Status</TableHead>
@@ -462,7 +457,6 @@ const AdminPage: React.FC = () => {
                           <TableCell className="font-medium">
                             {user.display_name || 'N/A'}
                           </TableCell>
-                          <TableCell>{user.email}</TableCell>
                           <TableCell>
                             <Badge variant="outline">{user.provider}</Badge>
                           </TableCell>
@@ -589,13 +583,8 @@ const AdminPage: React.FC = () => {
                           style={{ animationDelay: `${index * 0.05}s` }}
                         >
                           <TableCell>
-                            <div>
-                              <div className="font-medium">
-                                {payment.profiles?.display_name || 'Unknown'}
-                              </div>
-                              <div className="text-sm text-muted-foreground">
-                                {payment.profiles?.email || 'Unknown'}
-                              </div>
+                            <div className="font-medium">
+                              {payment.profiles?.display_name || 'Unknown'}
                             </div>
                           </TableCell>
                           <TableCell className="font-medium">
