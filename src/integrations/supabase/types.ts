@@ -172,7 +172,6 @@ export type Database = {
           avatar_url: string | null
           created_at: string
           display_name: string | null
-          email: string | null
           id: string
           is_banned: boolean
           provider: string | null
@@ -184,7 +183,6 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
-          email?: string | null
           id?: string
           is_banned?: boolean
           provider?: string | null
@@ -196,7 +194,6 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
-          email?: string | null
           id?: string
           is_banned?: boolean
           provider?: string | null
