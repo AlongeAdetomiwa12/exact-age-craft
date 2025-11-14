@@ -94,30 +94,41 @@ const AdminPage: React.FC = () => {
 
   const fetchUsers = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch profiles
+      const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
-        .select(`
-          *,
-          user_roles(role)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching users:', error);
+      if (profilesError) {
+        console.error('Error fetching profiles:', profilesError);
         toast({
           title: "Error",
           description: "Failed to load users data",
           variant: "destructive"
         });
-      } else {
-        const usersWithRoles = (data || []).map(profile => ({
-          ...profile,
-          role: Array.isArray(profile.user_roles) && profile.user_roles.length > 0 
-            ? profile.user_roles[0].role 
-            : 'user'
-        }));
-        setUsers(usersWithRoles);
+        return;
       }
+
+      // Fetch all user roles
+      const { data: rolesData, error: rolesError } = await supabase
+        .from('user_roles')
+        .select('user_id, role');
+
+      if (rolesError) {
+        console.error('Error fetching roles:', rolesError);
+      }
+
+      // Combine profiles with their roles
+      const usersWithRoles = (profilesData || []).map(profile => {
+        const userRole = rolesData?.find(r => r.user_id === profile.user_id);
+        return {
+          ...profile,
+          role: userRole?.role || 'user'
+        };
+      });
+      
+      setUsers(usersWithRoles);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -195,25 +206,26 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  const unbanUser = async (userId: string) => {
+  const deleteUser = async (userId: string) => {
     try {
+      // Delete user's profile (cascade will handle related records)
       const { error } = await supabase
         .from('profiles')
-        .update({ is_banned: false } as any)
+        .delete()
         .eq('user_id', userId);
 
       if (error) throw error;
 
       toast({
         title: "Success",
-        description: "User unbanned successfully",
+        description: "User removed successfully",
       });
       fetchUsers();
     } catch (error) {
-      console.error('Error unbanning user:', error);
+      console.error('Error deleting user:', error);
       toast({
         title: "Error",
-        description: "Failed to unban user",
+        description: "Failed to remove user. You may not have permission to delete users.",
         variant: "destructive"
       });
     }
@@ -537,6 +549,42 @@ const AdminPage: React.FC = () => {
                                       <AlertDialogTitle>Ban User</AlertDialogTitle>
                                       <AlertDialogDescription>
                                         Are you sure you want to ban {user.display_name}? This will prevent them from accessing the application.
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                      <AlertDialogAction onClick={() => banUser(user.user_id)}>
+                                        Ban User
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              )}
+                              
+                              <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                  <Button variant="destructive" size="sm" className="hover-scale">
+                                    Delete
+                                  </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Delete User</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                      Are you sure you want to permanently delete {user.display_name}? This action cannot be undone and will remove all their data.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction 
+                                      onClick={() => deleteUser(user.user_id)}
+                                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                    >
+                                      Delete User
+                                    </AlertDialogAction>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
                                       </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
