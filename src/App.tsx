@@ -8,7 +8,7 @@ import { Header } from "@/components/Header";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Suspense, lazy, memo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-
+import NotFound from "./pages/NotFound";
 
 // Lazy load pages for better performance on low-end devices
 const Index = lazy(() => import("./pages/Index"));
@@ -23,7 +23,6 @@ const BasicOperationsPage = lazy(() => import("./pages/BasicOperationsPage"));
 const SpecialFunctionsPage = lazy(() => import("./pages/SpecialFunctionsPage"));
 const KeyboardShortcutsPage = lazy(() => import("./pages/KeyboardShortcutsPage"));
 const ResponsiveDesignPage = lazy(() => import("./pages/ResponsiveDesignPage"));
-import NotFound from "./pages/NotFound";
 
 // Loading component optimized for low-end devices
 const LoadingSpinner = memo(() => (
