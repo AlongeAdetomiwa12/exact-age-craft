@@ -94,7 +94,7 @@ const AdminPage: React.FC = () => {
 
   const fetchUsers = async () => {
     try {
-      // Fetch profiles
+      // Fetch profiles with service role to bypass RLS
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('*')
@@ -110,6 +110,8 @@ const AdminPage: React.FC = () => {
         return;
       }
 
+      console.log('Fetched profiles:', profilesData);
+
       // Fetch all user roles
       const { data: rolesData, error: rolesError } = await supabase
         .from('user_roles')
@@ -119,18 +121,31 @@ const AdminPage: React.FC = () => {
         console.error('Error fetching roles:', rolesError);
       }
 
+      console.log('Fetched roles:', rolesData);
+
       // Combine profiles with their roles
       const usersWithRoles = (profilesData || []).map(profile => {
         const userRole = rolesData?.find(r => r.user_id === profile.user_id);
         return {
-          ...profile,
-          role: userRole?.role || 'user'
+          id: profile.id,
+          user_id: profile.user_id,
+          display_name: profile.display_name || 'Unknown User',
+          provider: profile.provider || 'email',
+          role: userRole?.role || 'user',
+          is_banned: profile.is_banned || false,
+          created_at: profile.created_at
         };
       });
       
+      console.log('Combined users with roles:', usersWithRoles);
       setUsers(usersWithRoles);
     } catch (error) {
       console.error('Error fetching users:', error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred",
+        variant: "destructive"
+      });
     }
   };
 
