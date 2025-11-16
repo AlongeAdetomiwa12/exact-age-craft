@@ -48,6 +48,29 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Calculator Demo Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'} gap-8 items-center`}>
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Try Our Most Popular Calculator
+                </h2>
+                <p className="text-lg text-muted-foreground mb-6">
+                  Start with our Age Calculator - precise, instant, and incredibly useful for planning and curiosity.
+                </p>
+                {!isMobile && <InfoTabs />}
+              </div>
+            </div>
+            
+            <div className="lg:pl-8">
+              <AgeCalculator />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
@@ -100,29 +123,6 @@ const Index = () => {
                 </p>
               </CardContent>
             </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Calculator Demo Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'} gap-8 items-center`}>
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Try Our Most Popular Calculator
-                </h2>
-                <p className="text-lg text-muted-foreground mb-6">
-                  Start with our Age Calculator - precise, instant, and incredibly useful for planning and curiosity.
-                </p>
-                {!isMobile && <InfoTabs />}
-              </div>
-            </div>
-            
-            <div className="lg:pl-8">
-              <AgeCalculator />
-            </div>
           </div>
         </div>
       </section>
