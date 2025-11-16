@@ -231,6 +231,30 @@ const AdminPage: React.FC = () => {
     }
   };
 
+  const unbanUser = async (userId: string) => {
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ is_banned: false } as any)
+        .eq('user_id', userId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "User unbanned successfully",
+      });
+      fetchUsers();
+    } catch (error) {
+      console.error('Error unbanning user:', error);
+      toast({
+        title: "Error",
+        description: "Failed to unban user",
+        variant: "destructive"
+      });
+    }
+  };
+
   const inviteAdmin = async () => {
     if (!newAdminEmail.trim()) {
       toast({
@@ -585,17 +609,6 @@ const AdminPage: React.FC = () => {
                                   </AlertDialogFooter>
                                 </AlertDialogContent>
                               </AlertDialog>
-                                      </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                      <AlertDialogAction onClick={() => banUser(user.user_id)}>
-                                        Ban User
-                                      </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                  </AlertDialogContent>
-                                </AlertDialog>
-                              )}
                             </div>
                           </TableCell>
                         </TableRow>
