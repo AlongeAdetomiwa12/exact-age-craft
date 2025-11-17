@@ -66,7 +66,8 @@ const App = () => (
               <Suspense fallback={<LoadingSpinner />}>
                 <Routes>
                   <Route path="/" element={<Index />} />
-                  <Route path="/calculators" element={<CalculatorPage />} />
+                  <Route path="/calculators" element={<CalculatorNavigation />} />
+                  <Route path="/calculator/:type" element={<CalculatorPage />} />
                   <Route path="/basic-operations" element={<BasicOperationsPage />} />
                   <Route path="/special-functions" element={<SpecialFunctionsPage />} />
                   <Route path="/auth" element={<AuthPage />} />
