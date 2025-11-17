@@ -429,6 +429,14 @@ const calculatorRoutes: CalculatorRoute[] = [
     description: "Circle geometry and theorems", 
     category: "Mathematics",
     formula: "Inscribed angle = Central angle ÷ 2"
+  },
+  { 
+    name: "Array Address Calculator", 
+    path: "/calculator/array-address", 
+    icon: Grid3X3, 
+    description: "Calculate memory address of array elements", 
+    category: "Mathematics",
+    formula: "Address[i] = Base + (i × Size)"
   }
 ];
 

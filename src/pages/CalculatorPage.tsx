@@ -46,6 +46,7 @@ const ThermodynamicsCalculator = lazy(() => import('@/components/calculators/The
 const HeartRateZonesCalculator = lazy(() => import('@/components/calculators/HeartRateZonesCalculator').then(m => ({ default: m.HeartRateZonesCalculator })));
 const FractionsCombinationsCalculator = lazy(() => import('@/components/calculators/FractionsCombinationsCalculator').then(m => ({ default: m.FractionsCombinationsCalculator })));
 const BodyFatCalculator = lazy(() => import('@/components/calculators/BodyFatCalculator').then(m => ({ default: m.BodyFatCalculator })));
+const ArrayAddressCalculator = lazy(() => import('@/components/calculators/ArrayAddressCalculator').then(m => ({ default: m.ArrayAddressCalculator })));
 
 const calculatorComponents = {
   'basic-arithmetic': BasicArithmeticCalculator,
@@ -90,6 +91,7 @@ const calculatorComponents = {
   'thermodynamics': ThermodynamicsCalculator,
   'heart-rate': HeartRateZonesCalculator,
   'body-fat': BodyFatCalculator,
+  'array-address': ArrayAddressCalculator,
 };
 
 export const CalculatorPage: React.FC = () => {
