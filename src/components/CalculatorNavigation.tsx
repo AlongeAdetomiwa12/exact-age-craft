@@ -2,12 +2,13 @@ import React, { useState, memo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Link } from 'react-router-dom';
 import { 
   Calculator, 
   Percent, 
   DollarSign, 
-  ShoppingCart, 
+  ShoppingCart,
   Receipt, 
   Scale,
   PieChart,
@@ -56,6 +57,7 @@ interface CalculatorRoute {
   description: string;
   category: string;
   formula?: string;
+  dateAdded?: string; // ISO date string for sorting
 }
 
 const calculatorRoutes: CalculatorRoute[] = [
@@ -214,7 +216,8 @@ const calculatorRoutes: CalculatorRoute[] = [
     icon: Heart, 
     description: "Training heart rate zones", 
     category: "Health",
-    formula: "Max HR = 220 - age"
+    formula: "Max HR = 220 - age",
+    dateAdded: "2025-01-15"
   },
   { 
     name: "Pregnancy Calculator", 
@@ -230,7 +233,8 @@ const calculatorRoutes: CalculatorRoute[] = [
     icon: Activity, 
     description: "Body fat percentage", 
     category: "Health",
-    formula: "Navy Method Formula"
+    formula: "Navy Method Formula",
+    dateAdded: "2025-01-16"
   },
 
   // Science Calculators
@@ -240,7 +244,8 @@ const calculatorRoutes: CalculatorRoute[] = [
     icon: Zap, 
     description: "Voltage, current, resistance, power", 
     category: "Science",
-    formula: "V = I×R, P = V×I"
+    formula: "V = I×R, P = V×I",
+    dateAdded: "2025-01-14"
   },
   { 
     name: "Thermodynamics Calculator", 
@@ -248,7 +253,8 @@ const calculatorRoutes: CalculatorRoute[] = [
     icon: Thermometer, 
     description: "Heat transfer and efficiency", 
     category: "Science",
-    formula: "Q = m×c×ΔT"
+    formula: "Q = m×c×ΔT",
+    dateAdded: "2025-01-13"
   },
 
   // Statistics Calculators
@@ -428,7 +434,8 @@ const calculatorRoutes: CalculatorRoute[] = [
     icon: Circle, 
     description: "Circle geometry and theorems", 
     category: "Mathematics",
-    formula: "Inscribed angle = Central angle ÷ 2"
+    formula: "Inscribed angle = Central angle ÷ 2",
+    dateAdded: "2025-01-10"
   },
   { 
     name: "Array Address Calculator", 
@@ -436,7 +443,8 @@ const calculatorRoutes: CalculatorRoute[] = [
     icon: Grid3X3, 
     description: "Calculate memory address of array elements", 
     category: "Mathematics",
-    formula: "Address[i] = Base + (i × Size)"
+    formula: "Address[i] = Base + (i × Size)",
+    dateAdded: "2025-01-17"
   }
 ];
 
@@ -457,7 +465,12 @@ const CalculatorCard = memo(({ calc }: { calc: CalculatorRoute }) => (
         <div className="bg-gradient-primary p-3 rounded-full w-fit mx-auto mb-3">
           <calc.icon className="h-6 w-6 text-white" />
         </div>
-        <CardTitle className="text-lg text-accent mb-1">{calc.name}</CardTitle>
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <CardTitle className="text-lg text-accent">{calc.name}</CardTitle>
+          {calc.dateAdded && new Date(calc.dateAdded) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) && (
+            <Badge variant="default" className="text-xs bg-primary">New</Badge>
+          )}
+        </div>
         <Badge 
           variant="secondary" 
           className="text-xs"
@@ -482,10 +495,24 @@ const CalculatorCard = memo(({ calc }: { calc: CalculatorRoute }) => (
 
 export const CalculatorNavigation: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState<"default" | "newest" | "alphabetical">("default");
 
-  const filteredCalculators = selectedCategory === "All" 
+  let filteredCalculators = selectedCategory === "All" 
     ? calculatorRoutes 
     : calculatorRoutes.filter(calc => calc.category === selectedCategory);
+
+  // Apply sorting
+  if (sortBy === "newest") {
+    filteredCalculators = [...filteredCalculators].sort((a, b) => {
+      const dateA = a.dateAdded ? new Date(a.dateAdded).getTime() : 0;
+      const dateB = b.dateAdded ? new Date(b.dateAdded).getTime() : 0;
+      return dateB - dateA; // Newest first
+    });
+  } else if (sortBy === "alphabetical") {
+    filteredCalculators = [...filteredCalculators].sort((a, b) => 
+      a.name.localeCompare(b.name)
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -518,6 +545,21 @@ export const CalculatorNavigation: React.FC = () => {
               </Badge>
             </Button>
           ))}
+        </div>
+
+        {/* Sort Filter */}
+        <div className="flex justify-center items-center gap-3 mb-6">
+          <span className="text-sm text-muted-foreground font-medium">Sort by:</span>
+          <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+            <SelectTrigger className="w-[180px] bg-background border-border">
+              <SelectValue placeholder="Default" />
+            </SelectTrigger>
+            <SelectContent className="bg-popover border-border z-50">
+              <SelectItem value="default">Default</SelectItem>
+              <SelectItem value="newest">Newest First</SelectItem>
+              <SelectItem value="alphabetical">A-Z</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
