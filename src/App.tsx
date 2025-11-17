@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, memo } from "react";
+import * as React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,21 +11,21 @@ import { Card, CardContent } from "@/components/ui/card";
 import NotFound from "./pages/NotFound";
 
 // Lazy load pages for better performance on low-end devices
-const Index = lazy(() => import("./pages/Index"));
-const CalculatorNavigation = lazy(() => import("@/components/CalculatorNavigation").then(module => ({ default: module.CalculatorNavigation })));
-const CalculatorPage = lazy(() => import("./pages/CalculatorPage").then(module => ({ default: module.CalculatorPage })));
-const AuthPage = lazy(() => import("./pages/AuthPage").then(module => ({ default: module.default })));
-const ProfilePage = lazy(() => import("./pages/ProfilePage"));
-const SettingsPage = lazy(() => import("./pages/SettingsPage"));
-const AdminPage = lazy(() => import("./pages/AdminPage"));
-const AboutToolPage = lazy(() => import("./pages/AboutToolPage"));
-const BasicOperationsPage = lazy(() => import("./pages/BasicOperationsPage"));
-const SpecialFunctionsPage = lazy(() => import("./pages/SpecialFunctionsPage"));
-const KeyboardShortcutsPage = lazy(() => import("./pages/KeyboardShortcutsPage"));
-const ResponsiveDesignPage = lazy(() => import("./pages/ResponsiveDesignPage"));
+const Index = React.lazy(() => import("./pages/Index"));
+const CalculatorNavigation = React.lazy(() => import("@/components/CalculatorNavigation").then(module => ({ default: module.CalculatorNavigation })));
+const CalculatorPage = React.lazy(() => import("./pages/CalculatorPage").then(module => ({ default: module.CalculatorPage })));
+const AuthPage = React.lazy(() => import("./pages/AuthPage").then(module => ({ default: module.default })));
+const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
+const SettingsPage = React.lazy(() => import("./pages/SettingsPage"));
+const AdminPage = React.lazy(() => import("./pages/AdminPage"));
+const AboutToolPage = React.lazy(() => import("./pages/AboutToolPage"));
+const BasicOperationsPage = React.lazy(() => import("./pages/BasicOperationsPage"));
+const SpecialFunctionsPage = React.lazy(() => import("./pages/SpecialFunctionsPage"));
+const KeyboardShortcutsPage = React.lazy(() => import("./pages/KeyboardShortcutsPage"));
+const ResponsiveDesignPage = React.lazy(() => import("./pages/ResponsiveDesignPage"));
 
 // Loading component optimized for low-end devices
-const LoadingSpinner = memo(() => (
+const LoadingSpinner = React.memo(() => (
   <div className="flex items-center justify-center min-h-[50vh]">
     <Card className="w-full max-w-md">
       <CardContent className="p-6">
@@ -63,7 +63,7 @@ const App = () => (
           <BrowserRouter>
             <div className="min-h-screen bg-background">
               <Header />
-              <Suspense fallback={<LoadingSpinner />}>
+              <React.Suspense fallback={<LoadingSpinner />}>
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/calculators" element={<CalculatorNavigation />} />
@@ -79,7 +79,7 @@ const App = () => (
                   <Route path="/about/keyboard-shortcuts" element={<KeyboardShortcutsPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
-              </Suspense>
+              </React.Suspense>
             </div>
           </BrowserRouter>
         </TooltipProvider>
