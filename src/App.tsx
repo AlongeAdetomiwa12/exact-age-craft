@@ -9,13 +9,14 @@ import { Header } from "@/components/Header";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Card, CardContent } from "@/components/ui/card";
 import NotFound from "./pages/NotFound";
+import ProfilePage from "./pages/ProfilePage";
 
 // Lazy load pages for better performance on low-end devices
 const Index = React.lazy(() => import("./pages/Index"));
 const CalculatorNavigation = React.lazy(() => import("@/components/CalculatorNavigation").then(module => ({ default: module.CalculatorNavigation })));
 const CalculatorPage = React.lazy(() => import("./pages/CalculatorPage").then(module => ({ default: module.CalculatorPage })));
 const AuthPage = React.lazy(() => import("./pages/AuthPage").then(module => ({ default: module.default })));
-const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
+
 const SettingsPage = React.lazy(() => import("./pages/SettingsPage"));
 const AdminPage = React.lazy(() => import("./pages/AdminPage"));
 const AboutToolPage = React.lazy(() => import("./pages/AboutToolPage"));
