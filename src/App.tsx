@@ -2,7 +2,6 @@ import * as React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/Header";
@@ -39,54 +38,38 @@ const LoadingSpinner = React.memo(() => (
   </div>
 ));
 
-// Optimized query client for low-end devices
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes - reduce network requests
-      gcTime: 10 * 60 * 1000, // 10 minutes (garbage collection time)
-      retry: 1, // Reduce retries to save bandwidth
-      refetchOnWindowFocus: false, // Prevent unnecessary refetches
-    },
-    mutations: {
-      retry: 1,
-    },
-  },
-});
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <div className="min-h-screen bg-background">
-              <Header />
-              <React.Suspense fallback={<LoadingSpinner />}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/calculators" element={<CalculatorNavigation />} />
-                  <Route path="/calculator/:type" element={<CalculatorPage />} />
-                  <Route path="/basic-operations" element={<BasicOperationsPage />} />
-                  <Route path="/special-functions" element={<SpecialFunctionsPage />} />
-                  <Route path="/auth" element={<AuthPage />} />
-                  <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/settings" element={<SettingsPage />} />
-                  <Route path="/admin" element={<AdminPage />} />
-                  <Route path="/about/tool/:id" element={<AboutToolPage />} />
-                  <Route path="/about/responsive-design" element={<ResponsiveDesignPage />} />
-                  <Route path="/about/keyboard-shortcuts" element={<KeyboardShortcutsPage />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </React.Suspense>
-            </div>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+  <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <div className="min-h-screen bg-background">
+            <Header />
+            <React.Suspense fallback={<LoadingSpinner />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/calculators" element={<CalculatorNavigation />} />
+                <Route path="/calculator/:type" element={<CalculatorPage />} />
+                <Route path="/basic-operations" element={<BasicOperationsPage />} />
+                <Route path="/special-functions" element={<SpecialFunctionsPage />} />
+                <Route path="/auth" element={<AuthPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/about/tool/:id" element={<AboutToolPage />} />
+                <Route path="/about/responsive-design" element={<ResponsiveDesignPage />} />
+                <Route path="/about/keyboard-shortcuts" element={<KeyboardShortcutsPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </React.Suspense>
+          </div>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
+  </ThemeProvider>
 );
 
 export default App;
