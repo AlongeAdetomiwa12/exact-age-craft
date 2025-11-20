@@ -2,7 +2,7 @@ import * as React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { Header } from "@/components/Header";
 import { AuthProvider } from "@/hooks/useAuth";
@@ -38,6 +38,32 @@ const LoadingSpinner = React.memo(() => (
   </div>
 ));
 
+// Offline detector component
+const OfflineRedirect = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  React.useEffect(() => {
+    const handleOffline = () => {
+      // Only redirect if not already on calculators page
+      if (!location.pathname.startsWith('/calculator')) {
+        navigate('/calculators');
+      }
+    };
+    
+    window.addEventListener('offline', handleOffline);
+    
+    // Check if already offline on mount
+    if (!navigator.onLine && !location.pathname.startsWith('/calculator')) {
+      navigate('/calculators');
+    }
+    
+    return () => window.removeEventListener('offline', handleOffline);
+  }, [navigate, location.pathname]);
+  
+  return null;
+};
+
 
 const App = () => (
   <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
@@ -46,6 +72,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <OfflineRedirect />
           <div className="min-h-screen bg-background">
             <Header />
             <React.Suspense fallback={<LoadingSpinner />}>

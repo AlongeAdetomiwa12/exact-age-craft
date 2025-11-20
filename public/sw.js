@@ -1,4 +1,4 @@
-const CACHE_NAME = 'chronosphere-calculator-v3';
+const CACHE_NAME = 'chronosphere-calculator-v4';
 const urlsToCache = [
   '/',
   '/calculators',
@@ -12,7 +12,12 @@ const urlsToCache = [
   '/calculator/percentage',
   '/calculator/bmi',
   '/calculator/tip',
-  '/calculator/discount'
+  '/calculator/discount',
+  '/calculator/compound-interest',
+  '/calculator/loan-emi',
+  '/calculator/currency-converter',
+  '/calculator/unit-price',
+  '/calculator/geometry'
 ];
 
 // Install event - cache resources
