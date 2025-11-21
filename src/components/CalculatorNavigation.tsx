@@ -3,7 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
+import { Search } from 'lucide-react';
 import { 
   Calculator, 
   Percent, 
@@ -496,10 +498,19 @@ const CalculatorCard = memo(({ calc }: { calc: CalculatorRoute }) => (
 export const CalculatorNavigation: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState<"default" | "newest" | "alphabetical">("default");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  let filteredCalculators = selectedCategory === "All" 
-    ? calculatorRoutes 
-    : calculatorRoutes.filter(calc => calc.category === selectedCategory);
+  // Filter by search query
+  let filteredCalculators = calculatorRoutes.filter(calc => {
+    const matchesSearch = searchQuery === "" || 
+      calc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      calc.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      calc.formula?.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesCategory = selectedCategory === "All" || calc.category === selectedCategory;
+    
+    return matchesSearch && matchesCategory;
+  });
 
   // Apply sorting
   if (sortBy === "newest") {
@@ -521,6 +532,20 @@ export const CalculatorNavigation: React.FC = () => {
         <p className="text-lg text-muted-foreground mb-6">
           Comprehensive mathematical and scientific calculations for every dimension of life
         </p>
+        
+        {/* Search Bar */}
+        <div className="max-w-xl mx-auto mb-8">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search calculators by name, description, or formula..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 pr-4 py-6 text-base border-2 focus:border-primary transition-all duration-300"
+            />
+          </div>
+        </div>
         
         {/* Category Tags */}
         <div className="flex flex-wrap justify-center gap-2 mb-6">
