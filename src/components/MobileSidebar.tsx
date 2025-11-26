@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSwipeable } from 'react-swipeable';
 import {
   Sheet,
   SheetContent,
@@ -8,8 +9,9 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Menu, Calculator, Info, Keyboard, Zap, MonitorSpeaker, Grid } from 'lucide-react';
+import { Menu, Calculator, Info, Keyboard, Zap, MonitorSpeaker, Grid, ChevronRight } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { motion, AnimatePresence } from 'framer-motion';
 // Import calculator routes data directly
 const calculatorRoutes = [
   { name: 'Age Calculator', path: '/calculator/age', icon: Calculator },
@@ -26,6 +28,22 @@ interface MobileSidebarProps {
 
 export const MobileSidebar = ({ children }: MobileSidebarProps) => {
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+
+  // Hide swipe hint after first interaction or after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSwipeHint(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Swipe handlers for opening the sidebar
+  const swipeHandlers = useSwipeable({
+    onSwipedRight: () => setIsOpen(true),
+    trackMouse: false,
+    trackTouch: true,
+    delta: 50, // minimum swipe distance
+  });
 
   const aboutSections = [
     { name: 'About Tool', path: '/about/tool', icon: Info },
@@ -36,33 +54,77 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
   ];
 
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        {children || (
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Menu className="h-5 w-5" />
-          </Button>
+    <>
+      {/* Swipe detection area */}
+      <div
+        {...swipeHandlers}
+        className="fixed left-0 top-0 bottom-0 w-8 z-40 md:hidden pointer-events-auto"
+        aria-label="Swipe right to open menu"
+      />
+
+      {/* Swipe hint indicator */}
+      <AnimatePresence>
+        {showSwipeHint && !isOpen && (
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -100, opacity: 0 }}
+            transition={{ duration: 0.5, repeat: 3, repeatDelay: 2 }}
+            className="fixed left-0 top-1/2 -translate-y-1/2 z-50 md:hidden pointer-events-none"
+            onClick={() => setShowSwipeHint(false)}
+          >
+            <motion.div
+              animate={{ x: [0, 20, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="bg-primary/90 text-primary-foreground px-3 py-2 rounded-r-lg shadow-lg flex items-center gap-2"
+            >
+              <ChevronRight className="h-4 w-4" />
+              <span className="text-xs font-medium">Swipe</span>
+            </motion.div>
+          </motion.div>
         )}
-      </SheetTrigger>
-      <SheetContent side="left" className="w-72 overflow-y-auto animate-slide-in-right">
+      </AnimatePresence>
+
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetTrigger asChild>
+          {children || (
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="md:hidden active:scale-95 transition-transform"
+              onClick={() => setShowSwipeHint(false)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          )}
+        </SheetTrigger>
+        <SheetContent 
+          side="left" 
+          className="w-72 overflow-y-auto animate-slide-in-right"
+          onInteractOutside={() => setShowSwipeHint(false)}
+        >
         <SheetHeader>
           <SheetTitle>Age Calculator</SheetTitle>
         </SheetHeader>
         
         <div className="mt-6 space-y-6 animate-fade-in">
           {/* Calculator Collection Link */}
-          <div className="animate-scale-in">
-            <Link to="/calculators">
+          <motion.div 
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/calculators" onClick={() => setIsOpen(false)}>
               <Button
                 variant={location.pathname === '/calculators' ? "secondary" : "ghost"}
-                className="w-full justify-start hover-scale group"
+                className="w-full justify-start hover-scale group active:scale-95"
                 size="sm"
               >
                 <Grid className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform duration-200" />
                 Calculator Collection
               </Button>
             </Link>
-          </div>
+          </motion.div>
 
           <Separator />
 
@@ -77,22 +139,24 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
                 const isActive = location.pathname === route.path;
                 
                 return (
-                  <div 
+                  <motion.div 
                     key={route.path} 
-                    className="animate-fade-in"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: index * 0.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <Link to={route.path}>
+                    <Link to={route.path} onClick={() => setIsOpen(false)}>
                       <Button
                         variant={isActive ? "secondary" : "ghost"}
-                        className="w-full justify-start hover-scale transition-all duration-200 group"
+                        className="w-full justify-start hover-scale transition-all duration-200 group active:scale-95"
                         size="sm"
                       >
                         <Icon className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform duration-200" />
                         {route.name}
                       </Button>
                     </Link>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -111,22 +175,24 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
                 const isActive = location.pathname === section.path;
                 
                 return (
-                  <div 
+                  <motion.div 
                     key={section.path}
-                    className="animate-fade-in"
-                    style={{ animationDelay: `${(index + calculatorRoutes.length) * 0.1}s` }}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: (index + calculatorRoutes.length) * 0.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <Link to={section.path}>
+                    <Link to={section.path} onClick={() => setIsOpen(false)}>
                       <Button
                         variant={isActive ? "secondary" : "ghost"}
-                        className="w-full justify-start hover-scale transition-all duration-200 group"
+                        className="w-full justify-start hover-scale transition-all duration-200 group active:scale-95"
                         size="sm"
                       >
                         <Icon className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform duration-200" />
                         {section.name}
                       </Button>
                     </Link>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -134,5 +200,6 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
         </div>
       </SheetContent>
     </Sheet>
+    </>
   );
 };
