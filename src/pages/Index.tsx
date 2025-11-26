@@ -172,7 +172,10 @@ const Index = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button size="lg" className="gap-3 px-10 py-6 text-lg font-semibold bg-gradient-primary hover:shadow-glow transition-all duration-300 w-full sm:w-auto group">
+                <Button 
+                  size="lg" 
+                  className="gap-3 px-10 py-6 text-lg font-semibold bg-gradient-primary hover:shadow-glow transition-all duration-300 w-full sm:w-auto group active:scale-95 touch-manipulation"
+                >
                   <Globe className="h-6 w-6" />
                   Explore Suite
                   <motion.div
@@ -190,7 +193,11 @@ const Index = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button variant="outline" size="lg" className="gap-3 px-10 py-6 text-lg font-semibold border-2 hover:bg-primary/10 hover:border-primary transition-all duration-300 w-full sm:w-auto">
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="gap-3 px-10 py-6 text-lg font-semibold border-2 hover:bg-primary/10 hover:border-primary transition-all duration-300 w-full sm:w-auto active:scale-95 touch-manipulation"
+                >
                   <Shield className="h-6 w-6" />
                   Sign In
                 </Button>
@@ -286,10 +293,10 @@ const Index = () => {
             
             <motion.div 
               className="lg:pl-8"
-              initial={{ x: 50, opacity: 0 }}
+              initial={{ x: isMobile ? 0 : 50, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.8, delay: isMobile ? 0.2 : 0.4 }}
             >
               <div className="relative">
                 <motion.div 
@@ -301,8 +308,9 @@ const Index = () => {
                   transition={{ duration: 3, repeat: Infinity }}
                 />
                 <motion.div 
-                  className="relative"
-                  whileHover={{ scale: 1.02 }}
+                  className="relative touch-manipulation"
+                  whileHover={{ scale: isMobile ? 1 : 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   <AgeCalculator />
