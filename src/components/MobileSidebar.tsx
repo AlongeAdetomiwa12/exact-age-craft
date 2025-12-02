@@ -9,9 +9,10 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Menu, Calculator, Info, Keyboard, Zap, MonitorSpeaker, Grid, ChevronRight } from 'lucide-react';
+import { Menu, Calculator, Info, Keyboard, Zap, MonitorSpeaker, Grid, ChevronRight, LayoutDashboard } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/hooks/useAuth';
 // Import calculator routes data directly
 const calculatorRoutes = [
   { name: 'Age Calculator', path: '/calculator/age', icon: Calculator },
@@ -28,6 +29,7 @@ interface MobileSidebarProps {
 
 export const MobileSidebar = ({ children }: MobileSidebarProps) => {
   const location = useLocation();
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [showSwipeHint, setShowSwipeHint] = useState(true);
 
@@ -125,6 +127,26 @@ export const MobileSidebar = ({ children }: MobileSidebarProps) => {
               </Button>
             </Link>
           </motion.div>
+
+          {user && (
+            <motion.div 
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link to="/dashboard" onClick={() => setIsOpen(false)}>
+                <Button
+                  variant={location.pathname === '/dashboard' ? "secondary" : "ghost"}
+                  className="w-full justify-start hover-scale group active:scale-95"
+                  size="sm"
+                >
+                  <LayoutDashboard className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform duration-200" />
+                  Dashboard
+                </Button>
+              </Link>
+            </motion.div>
+          )}
 
           <Separator />
 
