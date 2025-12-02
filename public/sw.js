@@ -110,16 +110,47 @@ self.addEventListener('push', (event) => {
     const options = {
       body: data.body,
       icon: '/icon-192x192.png',
-      badge: '/icon-192x192.png',
+      badge: '/icon-72x72.png',
       vibrate: [100, 50, 100],
+      tag: data.tag || 'default',
       data: {
+        url: data.url || '/dashboard',
         dateOfArrival: Date.now(),
-        primaryKey: 1
-      }
+      },
+      actions: [
+        { action: 'view', title: 'View' },
+        { action: 'dismiss', title: 'Dismiss' }
+      ]
     };
     
     event.waitUntil(
-      self.registration.showNotification(data.title, options)
+      self.registration.showNotification(data.title || 'ChronoSphere', options)
     );
   }
+});
+
+// Handle notification click
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  
+  if (event.action === 'dismiss') return;
+  
+  const urlToOpen = event.notification.data?.url || '/dashboard';
+  
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true })
+      .then((clientList) => {
+        // Focus existing window if available
+        for (const client of clientList) {
+          if (client.url.includes(self.location.origin) && 'focus' in client) {
+            client.navigate(urlToOpen);
+            return client.focus();
+          }
+        }
+        // Open new window if none exists
+        if (clients.openWindow) {
+          return clients.openWindow(urlToOpen);
+        }
+      })
+  );
 });

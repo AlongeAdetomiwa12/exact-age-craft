@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { Calculator } from "lucide-react";
+import { Calculator, LayoutDashboard } from "lucide-react";
 import { AuthButton } from "./AuthButton";
 import { useAuth } from "@/hooks/useAuth";
 import { MobileSidebar } from "./MobileSidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Header = () => {
-  const { userRole } = useAuth();
+  const { userRole, user } = useAuth();
   const isMobile = useIsMobile();
 
   return (
@@ -27,6 +27,12 @@ export const Header = () => {
           <Link to="/calculators" className="text-sm font-medium hover:text-primary transition-colors">
             Calculators
           </Link>
+          {user && (
+            <Link to="/dashboard" className="text-sm font-medium hover:text-primary transition-colors flex items-center gap-1">
+              <LayoutDashboard className="h-4 w-4" />
+              Dashboard
+            </Link>
+          )}
           {userRole === 'admin' && (
             <Link to="/admin" className="text-sm font-medium hover:text-primary transition-colors">
               Admin

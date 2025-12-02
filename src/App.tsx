@@ -18,6 +18,7 @@ const AuthPage = React.lazy(() => import("./pages/AuthPage").then(module => ({ d
 
 const SettingsPage = React.lazy(() => import("./pages/SettingsPage"));
 const AdminPage = React.lazy(() => import("./pages/AdminPage"));
+const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
 const AboutToolPage = React.lazy(() => import("./pages/AboutToolPage"));
 const BasicOperationsPage = React.lazy(() => import("./pages/BasicOperationsPage"));
 const SpecialFunctionsPage = React.lazy(() => import("./pages/SpecialFunctionsPage"));
@@ -84,6 +85,7 @@ const App = () => (
                 <Route path="/special-functions" element={<SpecialFunctionsPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/about/tool/:id" element={<AboutToolPage />} />
